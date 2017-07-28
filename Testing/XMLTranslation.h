@@ -5,6 +5,6 @@
 Return Codes:
 0: Success
 1: Failure with opening files
-2: Scanning error
+2: Binary map error
 */
 int fileToXML(char * input, char * output);
