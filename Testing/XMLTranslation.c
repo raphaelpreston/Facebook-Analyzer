@@ -46,12 +46,12 @@ int fileToXML(char * input, char * output)
 	bool foundOne;
 	bool skip = false;
 	bool goodSkip = false;
-	double charNum = 0;
-	double totalChars = 83327132;
+	// double charNum = 0;
+	// double totalChars = 83327132;
 
 	while ((c = fgetc(inputP)) != EOF) {
-		charNum++;
-		printf("\rProgress: %%%.4f", (charNum/totalChars)*100);
+		// charNum++;
+		// printf("\rProgress: %%%.4f", (charNum/totalChars)*100);
 		if (c == '<' || c == '>') {	//start or finish scanning
 			if (c == '>') {	//hit end of tag
 				/* check to see if theres only one possibility yet*/
