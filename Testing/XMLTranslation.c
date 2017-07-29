@@ -34,15 +34,14 @@ int fileToXML(char * input, char * output)
 	int stateLengths[] = { 3, 19, 20, 18, 2 };
 
 	int states[maxStates] = { 0 };	// [0,1,1,1,0] binary map of possible states
-	bool scanning = false;	//determine if we are in the process of matching
+	bool scanning = false;	//determine if we are in the process of matching or recording content
 	char c;
 	int idx = 0;
 	int matched = 0;
 	bool end;
 	int o;
 	int l;
-	bool found;
-	int yes;
+	bool foundOne;
 	bool skip = false;
 	while ((c = fgetc(inputP)) != EOF) {
 		printf("Scanning '%c'\n", c);
@@ -58,34 +57,39 @@ int fileToXML(char * input, char * output)
 			if (c == '>') {	//hit end of tag
 				/* check to see if theres only one possibility yet*/
 				printf("Checking to see if there is a match.\n");
-				end = false;
-				o = 0;
-				matched = -1;
-				while (!end && o < maxStates) {
-					printf("Checking states[%i]\n", o);
-					if (states[o] == 1) {
-						if (matched == -1) {	//if a 1 hasn't been found yet
-							matched = o;
-							printf("The first 1 was found.  Set matched to %i.\n", matched);
+				if (skip) {	//no match because skip is active.
+					printf("Skip is active which means that no match exists.  Scanning is true (but is overridden by skip).\n");
+				}
+				else {
+					end = false;
+					o = 0;
+					matched = -1;
+					while (!end && o < maxStates) {
+						printf("Checking states[%i]\n", o);
+						if (states[o] == 1) {
+							if (matched == -1) {	//if a 1 hasn't been found yet
+								matched = o;
+								printf("The first 1 was found.  Set matched to %i.\n", matched);
+							}
+							else {
+								end = true;	//termination because found a second 1
+								printf("A second 1 was found.  Set premature termination.\n");
+							}
 						}
-						else {
-							end = true;	//termination because found a second 1
-							printf("A second 1 was found.  Set premature termination.\n");
-						}
+						o++;
 					}
-					o++;
-				}
-				if (end) {	//premature termination because a second 1 was found
-					perror("Error.  Found a second 1 in binary map.\n");
-					return 2;
-				}
-				if (matched == -1) {	//no 1s - tag isn't a match
-					printf("No matches found.  Skip is still active.  Scanning is true (but is overridden by skip).\n");
-				}
-				else {	//theres only a single match
-					scanning = false;	//toggle scanning - time to record
-					skip = false;
-					printf("There is only one match!  Set scanning to false (it's time to record), and set skip to false\n");
+					if (end) {	//premature termination because a second 1 was found
+						perror("Error.  Found a second 1 in binary map.\n");
+						return 2;
+					}
+					if (matched == -1) {	//no 1s - tag isn't a match
+						printf("No matches found.  Skip is still active.  Scanning is true (but is overridden by skip).\n");
+					}
+					else {	//theres only a single match
+						scanning = false;	//toggle scanning - time to record
+						skip = false;
+						printf("There is only one match!  Set scanning to false (it's time to record), and set skip to false\n");
+					}
 				}
 				memset(states, 0, maxStates * sizeof(int));	//reset map
 				idx = 0;	//set index to zero
@@ -104,6 +108,7 @@ int fileToXML(char * input, char * output)
 			}
 			else {
 				if (scanning) {	//if scanning
+					foundOne = false;	//use to determine if there is at least one 1 in the binary tree, so we know to continue scanning or just start skipping
 					for (int k = 0; k < maxStates; k++) {	//for each possible state, compare the characters at the correct index ex. 'i' ?= "s(p)an class..." -> for each text comparison
 						printf("Attempting to compare '%c' with statesText[%i][%i] (%c).\n", c, k, idx, statesText[k][idx]);
 						if (states[k] == 1) {	//if text string still matches and it's not overflowing, check this character
@@ -114,7 +119,8 @@ int fileToXML(char * input, char * output)
 									printf("Characters were not equal.  Set states[%i] to 0.\n", k);
 								}
 								else {
-									printf("Characters were equal.  Keeping state[%i] at 1.\n", k);
+									foundOne = true;
+									printf("Characters were equal.  Keeping state[%i] at 1 and set 'foundOne' to true.\n", k);
 								}
 							}
 							else {
@@ -127,18 +133,7 @@ int fileToXML(char * input, char * output)
 					}
 
 					/* determine if there are any 1s in binary map */
-					printf("Checking to see if there are any 1s in binary map.\n");
-					l = 0;
-					yes = -1;
-					while (yes == -1 && l < maxStates) {
-						printf("Checking states[%i]\n", l);
-						if (states[l] == 1) {
-							yes = l;
-							printf("A 1 was found.  Set yes to %i.\n", yes);
-						}
-						l++;
-					}
-					if (yes == -1) {	//all zeroes
+					if (!foundOne) {	//all zeroes
 						skip = true;
 						printf("All zeroes.  Set skip to true.\n");
 					}
