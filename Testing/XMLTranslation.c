@@ -3,6 +3,8 @@
 #include <stdbool.h>
 
 #define MAXSTATES 5
+#define PRINTHEAVY 0
+#define PRINTLIGHT 0
 
 int fileToXML(char * input, char * output)
 {
@@ -21,7 +23,7 @@ int fileToXML(char * input, char * output)
 		perror("Error opening output file");
 		return 1;
 	}
-	
+
 	/* start translation from stupid facebook HTML to XML*/
 
 	const char h1[3] = "h1";	//state 0
@@ -29,30 +31,31 @@ int fileToXML(char * input, char * output)
 	const char spanClassUser[18] = "span class=\"user\"";	//state 2
 	const char spanClassMeta[18] = "span class=\"meta\"";	//state 3
 	const char p[2] = "p";		//state 4
-	
-	char * statesText[] = {h1, divClassThread, spanClassUser, spanClassMeta, p };
+
+	char * statesText[] = { h1, divClassThread, spanClassUser, spanClassMeta, p };
 	int stateLengths[] = { 3, 19, 18, 18, 2 };
 
-	char c;
 	int states[MAXSTATES] = { 0 };	// [0,1,1,1,0] binary map of possible states
+	bool scanning = false;	//determine if we are in the process of matching or recording content
+	char c;
 	int idx = 0;
 	int matched = -1;
-	int o;
-	int l;
-	bool scanning = false;	//determine if we are in the process of matching or recording content
 	bool end;
 	bool printedTag = false;
 	bool foundTwo;
+	int o;
+	int l;
 	bool foundOne;
 	bool skip = false;
 	bool goodSkip = false;
-
 	while ((c = fgetc(inputP)) != EOF) {
 		if (c == '<' || c == '>') {	//start or finish scanning
 			if (c == '>') {	//hit end of tag
 				/* check to see if theres only one possibility yet*/
-				if(! (skip || matched == -1)) {	//there is a match and skip is inactive
-					if(stateLengths[matched] - 1 == idx) {	//lengths are correct
+				if( !(skip || matched == -1) ){	//theres a match
+					if (stateLengths[matched] - 1 != idx) {	//lengths aren't correct
+					}
+					else {	//theres only a single match
 						scanning = false;	//toggle scanning - time to record
 						skip = false;
 						goodSkip = false;
@@ -68,14 +71,14 @@ int fileToXML(char * input, char * output)
 				skip = false;
 				goodSkip = false;
 				if (printedTag) {
-					fprintf(outputP, matched == 0 ? "</user>\n" : matched == 1 ? "</thread>\n" : matched == 2 ? "</speaker>\n" : matched == 3 ? "</meta>\n" : matched == 4 ? "</content>" : "</ERROR>\n");
+					fprintf(outputP, matched == 0 ? "</user>\n" : matched == 1 ? "</thread>\n" : matched == 2 ? "</speaker>\n" : matched == 3 ? "</meta>\n" : matched == 4 ? "</content>\n" : "</ERROR>\n");
 					printedTag = false;
 				}
 				matched = -1;
 			}
 		}
 		else {	//not a < or >
-			if(!skip) {
+			if(!skip && !goodSkip) {
 				if (scanning) {	//if scanning
 					foundOne = false;	//use to determine if there is at least one 1 in the binary tree, so we know to continue scanning or just start skipping
 					if (c == '/') {
@@ -91,6 +94,9 @@ int fileToXML(char * input, char * output)
 									if (!foundOne) {
 										matched = k;
 										foundOne = true;
+									}
+									else {
+										//foundTwo is already true
 									}
 								}
 							}
@@ -119,6 +125,8 @@ int fileToXML(char * input, char * output)
 											foundTwo = true;
 										}
 									}
+								}
+								else {
 								}
 							}
 						}
@@ -152,6 +160,7 @@ int fileToXML(char * input, char * output)
 			else if (goodSkip) {
 				idx++;
 			}
+			//else do nothing
 		}
 	}
 
