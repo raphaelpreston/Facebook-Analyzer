@@ -68,6 +68,9 @@ int fileToXML(char * input, char * output)
 				}
 			}
 			else if (c == '<') {	//hit beginning of tag
+				if (!scanning) {	//supposed to be recording, means its a meaningful tag with empty content
+					printf("empty tag detected.\n");	////this isn't working, WORKING HERE 
+				}
 				for (int i = 0; i < MAXSTATES; i++) { states[i] = 1; }	//all states are a possibility
 				scanning = true;
 				foundTwo = false;
@@ -82,7 +85,7 @@ int fileToXML(char * input, char * output)
 			}
 		}
 		else {	//not a < or >
-			if(!skip && !goodSkip) {
+			if(!skip && !goodSkip) {	//not skipping
 				if (scanning) {	//if scanning
 					foundOne = false;	//use to determine if there is at least one 1 in the binary tree, so we know to continue scanning or just start skipping
 					if (c == '/') {
