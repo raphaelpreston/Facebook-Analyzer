@@ -44,20 +44,14 @@ int fileToXML(char * input, char * output)
 	int l;
 	bool foundOne;
 	bool skip = false;
+	bool goodSkip = false;
 	while ((c = fgetc(inputP)) != EOF) {
-		printf("Scanning '%c'\n", c);
-		printf("pre states: ");
-		for (int i = 0; i < maxStates; i++) {
-			printf("%i", states[i]);
-		}
-		printf("\n");
-
 		/* update binary map for possible states */
 
 		if (c == '<' || c == '>') {	//start or finish scanning
 			if (c == '>') {	//hit end of tag
 				/* check to see if theres only one possibility yet*/
-				printf("Checking to see if there is a match.\n");
+				printf("Found '>'. Checking to see if there is a match.\n");
 				if (skip || matched == -1) {	//no match because skip is active or there is no match
 					printf("Skip is active or matched is -1 which means that no match exists.  Scanning is true (but is overridden by skip).\n");
 				}
@@ -68,36 +62,82 @@ int fileToXML(char * input, char * output)
 					else {	//theres only a single match
 						scanning = false;	//toggle scanning - time to record
 						skip = false;
-						printf("There is only one match, and it's the correct length: '%i'!  Set scanning to false (it's time to record), and set skip to false\n", matched);
+						goodSkip = false;
+						foundTwo = false;
+						printf("There is only one match, and it's the correct length: '%i'!  Set scanning to false (it's time to record), and set skip and goodSkip to false\n", matched);
 					}
 				}
-				printf("Set skip to false, and set scanning to false.\n", c);
 			}
 			else if (c == '<') {	//hit beginning of tag
 				for (int i = 0; i < maxStates; i++) { states[i] = 1; }	//all states are a possibility
 				scanning = true;
+				foundTwo = false;
 				idx = 0;
 				skip = false;
+				goodSkip = false;
 				matched = -1;
-				printf("Detected '<' (%c).  Set all map values to 1, index to zero, matched to -1, skip to false, and set scanning to true.\n", c);
+				printf("Found '<'.  Set all map values to 1, index to zero, matched to -1, and set scanning to true.\n", c);
 			}
 		}
 		else {	//not a < or >
-			if (skip == true) {
+			if (skip) {
 				printf("Skipping analyzing '%c'\n", c);
+			}
+			else if (goodSkip) {
+				printf("Skipping analyzing '%c'\n", c);
+				idx++;
+				printf("Increased index to %i. \n", idx);
 			}
 			else {
 				if (scanning) {	//if scanning
+					printf("Scanning '%c'\n", c);
+					printf("pre states: ");
+					for (int i = 0; i < maxStates; i++) {
+						printf("%i", states[i]);
+					}
+					printf("\n");
 					foundOne = false;	//use to determine if there is at least one 1 in the binary tree, so we know to continue scanning or just start skipping
 					if (c == '/') {
 						skip = true;
 						printf("Ending tag detected, setting skip to true.\n");
 					}
 					else {
-						for (int k = 0; k < maxStates; k++) {	//for each possible state, compare the characters at the correct index ex. 'i' ?= "s(p)an class..." -> for each text comparison
-							printf("Attempting to compare '%c' with statesText[%i][%i] (%c).\n", c, k, idx, statesText[k][idx]);
-							if (states[k] == 1) {	//if text string still matches and it's not overflowing, check this character
-								if (idx < stateLengths[k] - 1) {
+						if (foundTwo == true) {	//either state 2 or state 3
+							for (int k = 2; k < 4; k++) {
+								printf("Attempting to compare '%c' with statesText[%i][%i] (%c).\n", c, k, idx, statesText[k][idx]);
+								if (statesText[k][idx] != c) {	//if the character being examined is the same as the character at index "idx" in the text pattern to match it to, set that state to one to continue searching, or 0 to disable searching for that specific text
+									states[k] = 0;
+									printf("Characters were not equal.  Set states[%i] to 0.\n", k);
+								}
+								else {
+									if (!foundOne) {
+										matched = k;
+										foundOne = true;
+										printf("Found first instance of equal characters.  Keeping state[%i] at 1, set 'foundOne' to true, and matched to %i.\n", k, matched);
+									}
+									else {
+										printf("Found second instance of equal characters. \n");
+										//foundTwo is already true
+									}
+								}
+							}
+						}
+						else if (matched != -1) {	//only compare the already matched value
+							printf("Attempting to compare '%c' with statesText[%i][%i] (%c).\n", c, matched, idx, statesText[matched][idx]);
+							if (statesText[matched][idx] != c) {	//if the character being examined is the same as the character at index "idx" in the text pattern to match it to, set that state to one to continue searching, or 0 to disable searching for that specific text
+								states[matched] = 0;
+								printf("Characters were not equal.  Set states[%i] to 0.\n", matched);
+							}
+							else {
+								//matched is already set
+								foundOne = true;
+								printf("Found first instance of equal characters.  Keeping state[%i] at 1, set 'foundOne' to true.\n", matched);
+							}
+						}
+						else {
+							for (int k = 0; k < maxStates; k++) {	//for each possible state, compare the characters at the correct index ex. 'i' ?= "s(p)an class..." -> for each text comparison
+								printf("Attempting to compare '%c' with statesText[%i][%i] (%c).\n", c, k, idx, statesText[k][idx]);
+								if (states[k] == 1) {	//if text string still matches and it's not overflowing, check this character
 									printf("Checking states[%i] because it's still 1.\n", k);
 									if (statesText[k][idx] != c) {	//if the character being examined is the same as the character at index "idx" in the text pattern to match it to, set that state to one to continue searching, or 0 to disable searching for that specific text
 										states[k] = 0;
@@ -111,15 +151,13 @@ int fileToXML(char * input, char * output)
 										}
 										else {
 											printf("Found second instance of equal characters. \n");
+											foundTwo = true;
 										}
 									}
 								}
 								else {
-									printf("Skipping over states[%i] because it's too long to be a match.  idx (%i) was not less than stateLengths[%i] (%i) - 1.\n", k, idx, k, stateLengths[k]);
+									printf("Skipping over states[%i] because it's already 0.\n", k);
 								}
-							}
-							else {
-								printf("Skipping over states[%i] because it's already 0.\n", k);
 							}
 						}
 
@@ -128,30 +166,36 @@ int fileToXML(char * input, char * output)
 							skip = true;
 							printf("All zeroes.  Set skip to true.\n");
 						}
+
+						/* determine if there is only one actual possibility left (no point in checking state 0 or 4)*/
+						if (matched == 1 && c == 't' && idx == 11) {	//<div class="t
+							goodSkip = true;
+							printf("positive that match is state 1.  Set goodSkip to true.\n");
+						}
+						else if (matched == 2 && c == 'u' && idx == 12) {	//<span class="u
+							goodSkip = true;
+							printf("positive that match is state 2.  Set goodSkip to true.\n");
+						}
+						else if (matched == 3 && c == 'm' && idx == 12) {	//<span class="m
+							goodSkip = true;
+							printf("positive that match is state 3.  Set goodSkip to true.\n");
+						}
 					}
 					idx++;
 					printf("Increased index to %i. \n", idx);
+					printf("post states: ");
+					for (int i = 0; i < maxStates; i++) {
+						printf("%i", states[i]);
+					}
+					printf("\n");
 				}
 				else {	//not scanning - match has been made
 					printf("recording: '%c'\n", c);
 				}
 			}
 		}
-		fprintf(outputP, " char: %c, post states: ", c);
-		for (int i = 0; i < maxStates; i++) {
-			fprintf(outputP, "%i", states[i]);
-		}
-		fprintf(outputP, "\n\n");
-		
-		printf("post states: ");
-		for (int i = 0; i < maxStates; i++) {
-			printf("%i", states[i]);
-		}
-		printf("\n\n");
+		printf("\n");
 	}
-
-
-
 
 	/* close all files */
 	fclose(inputP);
