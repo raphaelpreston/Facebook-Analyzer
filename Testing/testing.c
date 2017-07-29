@@ -3,7 +3,7 @@
 
 int main(int argc, char * argv[])
 {
-	return fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/messagedemo.htm", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
+	return fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/messages.htm", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
 	
 }
 
