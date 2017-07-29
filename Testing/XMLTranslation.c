@@ -46,7 +46,7 @@ int fileToXML(char * input, char * output)
 	bool foundOne;
 	bool skip = false;
 	bool goodSkip = false;
-	unsigned int charNum;
+	unsigned int charNum = 0;
 
 	while ((c = fgetc(inputP)) != EOF) {
 		charNum++;
