@@ -46,8 +46,9 @@ int fileToXML(char * input, char * output)
 	bool foundOne;
 	bool skip = false;
 	bool goodSkip = false;
-	// double charNum = 0;
+	/* double charNum = 0;
 	// double totalChars = 83327132;
+	*/
 
 	while ((c = fgetc(inputP)) != EOF) {
 		// charNum++;
