@@ -3,8 +3,6 @@
 #include <stdbool.h>
 
 #define MAXSTATES 5
-#define PRINTHEAVY 0
-#define PRINTLIGHT 0
 
 int fileToXML(char * input, char * output)
 {
