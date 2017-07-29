@@ -50,7 +50,7 @@ int fileToXML(char * input, char * output)
 
 	while ((c = fgetc(inputP)) != EOF) {
 		charNum++;
-		printf("Analyzing char #%u", charNum)
+		printf("Analyzing char #%u", charNum);
 		if (c == '<' || c == '>') {	//start or finish scanning
 			if (c == '>') {	//hit end of tag
 				/* check to see if theres only one possibility yet*/
