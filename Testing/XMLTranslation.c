@@ -4,7 +4,7 @@
 
 #define MAXSTATES 5
 #define PRINTHEAVY 0
-#define PRINTLIGHT 1
+#define PRINTLIGHT 0
 
 int fileToXML(char * input, char * output)
 {
@@ -41,6 +41,7 @@ int fileToXML(char * input, char * output)
 	int idx = 0;
 	int matched = -1;
 	bool end;
+	bool printedTag = false;
 	bool foundTwo;
 	int o;
 	int l;
@@ -79,6 +80,10 @@ int fileToXML(char * input, char * output)
 				idx = 0;
 				skip = false;
 				goodSkip = false;
+				if (printedTag) {
+					fprintf(outputP, matched == 0 ? "</user>\n" : matched == 1 ? "</thread>\n" : matched == 2 ? "</speaker>\n" : matched == 3 ? "</meta>\n" : matched == 4 ? "</content>" : "</ERROR>\n");
+					printedTag = false;
+				}
 				matched = -1;
 				if (PRINTHEAVY == 1) printf("Found '<'.  Set all map values to 1, index to zero, matched to -1, and set scanning to true.\n", c);
 				if (PRINTLIGHT == 1) printf("Found beginning of tag...\n");
@@ -205,6 +210,11 @@ int fileToXML(char * input, char * output)
 				}
 				else {	//not scanning - match has been made
 					if(PRINTHEAVY == 1 || PRINTLIGHT == 1)printf("recording: '%c'\n", c);
+					if (!printedTag) {
+						fprintf(outputP, matched == 0 ? "<user>" : matched == 1 ? "<thread>" : matched == 2 ? "<speaker>" : matched == 3 ? "<meta>" : matched == 4 ? "<content>" : "<ERROR>");
+						printedTag = true;
+					}
+					fprintf(outputP, "%c", c);
 				}
 			}
 		}
