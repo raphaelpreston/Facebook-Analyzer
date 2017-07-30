@@ -14,11 +14,11 @@ int fileToXML(char * input, char * output)
 
 	/* error checking */
 	if (inputP == NULL) {
-		perror("Error opening input file");
+		perror("Error opening input file!!");
 		return 1;
 	}
 	if (outputP == NULL) {
-		perror("Error opening output file");
+		perror("Error opening output file!!");
 		return 1;
 	}
 
