@@ -13,7 +13,7 @@ int main(int argc, char * argv[])
 		diff = (double)(1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
 		printf("%.0f\n", diff);
 	}*/
-	fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/input.txt", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
+	fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/messages.htm", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
 	return 0;
 }
 

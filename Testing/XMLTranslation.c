@@ -46,13 +46,14 @@ int fileToXML(char * input, char * output)
 	bool foundOne;
 	bool skip = false;
 	bool goodSkip = false;
-	/* double charNum = 0;
-	// double totalChars = 83327132;
-	*/
+	bool recorded = false;
+	//double charNum = 0;
+	//double totalChars = 83327132;
+
 
 	while ((c = fgetc(inputP)) != EOF) {
-		// charNum++;
-		// printf("\rProgress: %%%.4f", (charNum/totalChars)*100);
+		//charNum++;
+		//printf("\rProgress: %%%.4f", (charNum/totalChars)*100);
 		if (c == '<' || c == '>') {	//start or finish scanning
 			if (c == '>') {	//hit end of tag
 				/* check to see if theres only one possibility yet*/
@@ -68,9 +69,11 @@ int fileToXML(char * input, char * output)
 				}
 			}
 			else if (c == '<') {	//hit beginning of tag
-				if (!scanning) {	//supposed to be recording, means its a meaningful tag with empty content
-					printf("empty tag detected.\n");	////this isn't working, WORKING HERE 
+				if (!scanning && !recorded && matched != -1) {	//supposed to be recording, means its a meaningful tag with empty content
+					fprintf(outputP, matched == 0 ? "<user></user>\n" : matched == 1 ? "<thread></thread>\n" : matched == 2 ? "<speaker></speaker>\n" : matched == 3 ? "<meta></meta>\n" : matched == 4 ? "<content></content>\n" : "<ERROR></ERROR>\n");
 				}
+				recorded = false;
+				//printf("found <, scanning is");
 				for (int i = 0; i < MAXSTATES; i++) { states[i] = 1; }	//all states are a possibility
 				scanning = true;
 				foundTwo = false;
@@ -162,6 +165,7 @@ int fileToXML(char * input, char * output)
 						printedTag = true;
 					}
 					fprintf(outputP, "%c", c);
+					recorded = true;
 				}
 			}
 			else if (goodSkip) {
