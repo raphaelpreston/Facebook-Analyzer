@@ -70,7 +70,7 @@ int fileToXML(char * input, char * output)
 			}
 			else if (c == '<') {	//hit beginning of tag
 				if (!scanning && !recorded && matched != -1) {	//supposed to be recording, means its a meaningful tag with empty content
-					fprintf(outputP, matched == 0 ? "<user></user>\n" : matched == 1 ? "<thread></thread>\n" : matched == 2 ? "<speaker></speaker>\n" : matched == 3 ? "<meta></meta>\n" : matched == 4 ? "<content></content>\n" : "<ERROR></ERROR>\n");
+					fprintf(outputP, matched == 0 ? "[[\n" : matched == 1 ? "]]\n" : matched == 2 ? "{{\n" : matched == 3 ? "}}\n" : matched == 4 ? "<<\n" : "<ERROR></ERROR>\n");
 				}
 				recorded = false;
 				//printf("found <, scanning is");
@@ -81,7 +81,7 @@ int fileToXML(char * input, char * output)
 				skip = false;
 				goodSkip = false;
 				if (printedTag) {
-					fprintf(outputP, matched == 0 ? "</user>\n" : matched == 1 ? "</thread>\n" : matched == 2 ? "</speaker>\n" : matched == 3 ? "</meta>\n" : matched == 4 ? "</content>\n" : "</ERROR>\n");
+					fprintf(outputP, matched == 0 ? "[\n" : matched == 1 ? "]\n" : matched == 2 ? "{\n" : matched == 3 ? "}\n" : matched == 4 ? "<\n" : "</ERROR>\n");
 					printedTag = false;
 				}
 				matched = -1;
@@ -161,7 +161,7 @@ int fileToXML(char * input, char * output)
 				}
 				else {	//not scanning - match has been made
 					if (!printedTag) {
-						fprintf(outputP, matched == 0 ? "<user>" : matched == 1 ? "<thread>" : matched == 2 ? "<speaker>" : matched == 3 ? "<meta>" : matched == 4 ? "<content>" : "<ERROR>");
+						fprintf(outputP, matched == 0 ? "[" : matched == 1 ? "]" : matched == 2 ? "{" : matched == 3 ? "}" : matched == 4 ? "<" : "</ERROR>\n");
 						printedTag = true;
 					}
 					fprintf(outputP, "%c", c);
