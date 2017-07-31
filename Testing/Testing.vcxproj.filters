@@ -26,5 +26,14 @@
     <ClInclude Include="XMLTranslation.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="uthash.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utarray.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utstring.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

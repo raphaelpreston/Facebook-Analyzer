@@ -144,6 +144,9 @@
     <ClCompile Include="XMLTranslation.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="utarray.h" />
+    <ClInclude Include="uthash.h" />
+    <ClInclude Include="utstring.h" />
     <ClInclude Include="XMLTranslation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -179,3 +179,5 @@ int fileToXML(char * input, char * output)
 	fclose(inputP);
 	fclose(outputP);
 }
+
+int loadXML(char * filePath, )
