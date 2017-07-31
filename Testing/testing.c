@@ -5,6 +5,21 @@
 
 int main(int argc, char * argv[])
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// struct timeb start, end;
 	// double diff;
 	//for (int i = 0; i < 30; i++) {
@@ -47,29 +62,29 @@ int main(int argc, char * argv[])
 	//////////////^^^^^^////////////
 
 
-	FILE * testing;
-	double diff;
-	testing = fopen("C:/Users/IAMFRANK/Documents/FB Testing/bigtesting.txt", "w");
-	struct timeb start, end;
-	int fileNum;
-	for (fileNum = 1; fileNum <= 83380072; fileNum += 656536) {	//executes for every file
-		char fileName[100];
-		snprintf(fileName, sizeof(fileName), "C:/Users/IAMFRANK/Documents/FB Testing/Testing Files/%i", fileNum);
-		//test thirty times to get average
-		printf("%i\t", fileNum);
-		fprintf(testing, "%i\t", fileNum);
-		for (int i = 0; i < 30; i++) {
-			ftime(&start);
-			fileToXML(fileName, "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
-			ftime(&end);
-			diff = (double)(1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
-			fprintf(testing, "%.3f\t", diff);
-			printf("%.3f\t", diff);
-		}
-		fprintf(testing, "\n");
-		printf("\n");
-	}
-	fclose(testing);
+	//FILE * testing;
+	//double diff;
+	//testing = fopen("C:/Users/IAMFRANK/Documents/FB Testing/bigtesting.txt", "w");
+	//struct timeb start, end;
+	//int fileNum;
+	//for (fileNum = 1; fileNum <= 83380072; fileNum += 656536) {	//executes for every file
+	//	char fileName[100];
+	//	snprintf(fileName, sizeof(fileName), "C:/Users/IAMFRANK/Documents/FB Testing/Testing Files/%i", fileNum);
+	//	//test thirty times to get average
+	//	printf("%i\t", fileNum);
+	//	fprintf(testing, "%i\t", fileNum);
+	//	for (int i = 0; i < 30; i++) {
+	//		ftime(&start);
+	//		fileToXML(fileName, "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
+	//		ftime(&end);
+	//		diff = (double)(1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
+	//		fprintf(testing, "%.3f\t", diff);
+	//		printf("%.3f\t", diff);
+	//	}
+	//	fprintf(testing, "\n");
+	//	printf("\n");
+	//}
+	//fclose(testing);
 	/////////////////////////////////
 
 
