@@ -245,9 +245,12 @@ int getFromEnum(char * keyNoTerm) {
 	//loop through file until match is made
 	char c;
 	char * test = (char *)malloc(5);
-	strcpy(test, "test");
-	test = cAppend(test, "f");
+	//strcpy(test, "test");
+	test[0] = '\0';
+	test = cAppend(test, 'f');
 	printf("string: %s\n", test);
+	test = cAppend(test, 'c');
+	printf("new string: %s\n", test);
 	//while ((c = fgetc(enumFile)) != EOF) {
 	//	printf("Analyzing %c\n", c);
 	//	if (i == size) {	//if a match has been found, start reading in the data
@@ -286,21 +289,18 @@ int getFromEnum(char * keyNoTerm) {
 
 char * cAppend(char * str, char c) {	//takes a string and a char, appends them and returns the new string
 	size_t len = strlen(str);
-
+	printf("The size of the string is %i\n", len);
 	//allocate space for temp string
 	char * tmp;
 	tmp = (char *)malloc(len + 2);	//enough room for '\0' and the char
 	if (tmp == NULL) perror("Error in malloc.");
-	printf("Malloced space for %i chars\n", len + 2);
+
 	//copy str into tmp
 	strcpy(tmp, str);
-	printf("str is now %s\n", tmp);
 
 	//append the char
-	printf("char at tmp[len]: %c\n", tmp[len]);
-	tmp[len] = 'f';
+	tmp[len] = c;
 	tmp[len + 1] = '\0';
-	printf("new tmp: %s\n", tmp);
 
 	//free old str and return new one
 	free(str);
