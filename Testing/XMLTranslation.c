@@ -236,52 +236,48 @@ int getFromEnum(char * keyNoTerm) {
 	strcpy(key, keyNoTerm);
 	strcat(key, " : ");	//add terminating string to the key
 
-	int rec = false;
+	int bufFilling = false;
 	const int size = strlen(key);	
 	char * buffer;
 	buffer = (char *)malloc(size + 1);	//allocate space for buffer string
 	if (buffer == NULL) perror("Error in malloc.");
+	buffer[0] = '\0'; //must start buffer out as empty even though there is the correct amount of allocated space for it
 	int i = 0;	//keep track of position in char array
 	//loop through file until match is made
 	char c;
-	char * test = (char *)malloc(5);
-	//strcpy(test, "test");
-	test[0] = '\0';
-	test = cAppend(test, 'f');
-	printf("string: %s\n", test);
-	test = cAppend(test, 'c');
-	printf("new string: %s\n", test);
-	//while ((c = fgetc(enumFile)) != EOF) {
-	//	printf("Analyzing %c\n", c);
-	//	if (i == size) {	//if a match has been found, start reading in the data
-	//		loc = ftell(enumFile);
-	//		fprintf("Key found at location %ld, reading in data starting with %c\n", loc, c);
-	//		// free(buffer);
-	//		rec = true;
-	//		return -1;
-	//	}
-	//	else {	//no match made yet
-	//		if (c == key[i]) {	//the characters match
-	//			buffer = cAppend(buffer, c);
-	//			i++;
-	//			printf("Characters match, string is now %s\n", buffer);
-	//		}
-	//		else {	//chars don't match, so restart
-	//			//free(buffer);
-	//			if (rec) {
-	//				buffer = (char *)malloc(size + 1);	//reallocate buffer
-	//				if (buffer == NULL) perror("Error in malloc.");
-	//				printf("String has been reset.\n");
-	//				rec = false;
-	//			}
-	//			else {
-	//				printf("Nothing to reset.\n");
-	//			}
-	//			i = 0;
-	//			
-	//		}
-	//	}
-	//}
+
+	while ((c = fgetc(enumFile)) != EOF) {
+		printf("Analyzing %c, index is %i and size is %i\n", c, i, size);
+		if (i == size) {	//if a match has been found, start reading in the data
+			printf("i == size!!!! Theres a match.\n");
+			free(buffer);
+			return -1;
+		}
+		else {	//no match made yet
+			if (c == key[i]) {	//the characters match
+				buffer = cAppend(buffer, c);
+				i++;
+				printf("Characters match, string is now %s\n", buffer);
+				bufFilling = true;
+			}
+			else {	//chars don't match, so restart
+				//free(buffer);
+				if (bufFilling) {
+					buffer = (char *)malloc(size + 1);	//reallocate buffer
+					buffer[0] = '\0';
+					if (buffer == NULL) perror("Error in malloc.");
+					printf("String has been reset.\n");
+					bufFilling = false;
+				}
+				else {
+					printf("Nothing to reset.\n");
+				}
+				i = 0;
+				
+			}
+		}
+	}
+
 	fclose(enumFile);
 	return -1;
 }
@@ -289,7 +285,7 @@ int getFromEnum(char * keyNoTerm) {
 
 char * cAppend(char * str, char c) {	//takes a string and a char, appends them and returns the new string
 	size_t len = strlen(str);
-	printf("The size of the string is %i\n", len);
+
 	//allocate space for temp string
 	char * tmp;
 	tmp = (char *)malloc(len + 2);	//enough room for '\0' and the char
