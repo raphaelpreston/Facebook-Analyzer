@@ -143,11 +143,13 @@
     <ClCompile Include="dll.c" />
     <ClCompile Include="hash.c" />
     <ClCompile Include="hashset.c" />
+    <ClCompile Include="dString.c" />
     <ClCompile Include="testing.c" />
     <ClCompile Include="XMLTranslation.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dll.h" />
+    <ClInclude Include="dString.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hashset.h" />
     <ClInclude Include="XMLTranslation.h" />

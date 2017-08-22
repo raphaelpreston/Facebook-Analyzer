@@ -3,6 +3,7 @@
 #include "hashset.h"
 #include <sys/timeb.h>
 #include <stdbool.h>
+#include "dString.h"
 
 int main(int argc, char * argv[])
 {
@@ -21,7 +22,76 @@ int main(int argc, char * argv[])
 	printf("true: %i\nfalse: %i\n", hashset_is_member(set, foo), hashset_is_member(set, missing)); */
 
 
-	getFromEnum("enumtest");
+	//getFromEnum("enumtest");
+	//d string testing:
+	printf("Initializing dString...\n\n");
+	dString * dStr;
+	dStr = dString_new(5);
+	dString * dStrSmall;
+	dStrSmall = dString_new(4);
+	dString * dStrBig;
+	dStrBig = dString_new(6);
+	
+
+	printf("Filling dString with \"test\"...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_fill(dStr, "test");
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Filling dStringSmall with \"test\"...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
+	dString_fill(dStrSmall, "test");
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
+
+	printf("Filling dStringBig with \"test\"...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_fill(dStrBig, "test");
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+
+	printf("Changing dString[2] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_changeChar(dStr, 2, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Changing dString[-1] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_changeChar(dStr, -1, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Changing dString[4] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_changeChar(dStr, 4, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Changing dStringBig[4] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_changeChar(dStrBig, 4, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+
+	printf("Changing dStringBig[5] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_changeChar(dStrBig, 5, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+
+
+	printf("Deleting dString...\n\n");
+	dString_delete(dStr);
+
+	printf("Everything completed.\n");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

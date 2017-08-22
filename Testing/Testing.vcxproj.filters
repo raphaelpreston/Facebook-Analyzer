@@ -30,6 +30,9 @@
     <ClCompile Include="hashset.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dString.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XMLTranslation.h">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="hashset.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dString.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

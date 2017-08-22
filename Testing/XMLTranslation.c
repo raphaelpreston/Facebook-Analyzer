@@ -220,7 +220,7 @@ int loadXML(char * fileName) {
 
 	}
 }
-#define NUM 5
+
 int getFromEnum(char * keyNoTerm) {
 	FILE * enumFile;
 	enumFile = fopen(ENUM, "r");
@@ -230,13 +230,13 @@ int getFromEnum(char * keyNoTerm) {
 	}
 	long int loc;
 	int f = 6;
-	char str[NUM*5];
 	char * key;
 	key = (char *)malloc(strlen(keyNoTerm) + 3 + 1);
 	strcpy(key, keyNoTerm);
 	strcat(key, " : ");	//add terminating string to the key
 
-	int bufFilling = false;
+	bool rec = false;
+	bool bufFilling = false;
 	const int size = strlen(key);	
 	char * buffer;
 	buffer = (char *)malloc(size + 1);	//allocate space for buffer string
@@ -248,32 +248,37 @@ int getFromEnum(char * keyNoTerm) {
 
 	while ((c = fgetc(enumFile)) != EOF) {
 		printf("Analyzing %c, index is %i and size is %i\n", c, i, size);
-		if (i == size) {	//if a match has been found, start reading in the data
-			printf("i == size!!!! Theres a match.\n");
-			free(buffer);
-			return -1;
+		if (rec) {
+
 		}
-		else {	//no match made yet
-			if (c == key[i]) {	//the characters match
-				buffer = cAppend(buffer, c);
-				i++;
-				printf("Characters match, string is now %s\n", buffer);
-				bufFilling = true;
+		else {	//not recording
+			if (i == size) {	//if a match has been found, start reading in the data
+				printf("i == size!!!! Theres a match.\n");
+				free(buffer);
+				return -1;
 			}
-			else {	//chars don't match, so restart
-				//free(buffer);
-				if (bufFilling) {
-					buffer = (char *)malloc(size + 1);	//reallocate buffer
-					buffer[0] = '\0';
-					if (buffer == NULL) perror("Error in malloc.");
-					printf("String has been reset.\n");
-					bufFilling = false;
+			else {	//no match made yet
+				if (c == key[i]) {	//the characters match
+					buffer = cAppend(buffer, c);
+					i++;
+					printf("Characters match, string is now %s\n", buffer);
+					bufFilling = true;
 				}
-				else {
-					printf("Nothing to reset.\n");
+				else {	//chars don't match, so restart
+					if (bufFilling) {
+						free(buffer);
+						buffer = (char *)malloc(size + 1);	//reallocate buffer
+						buffer[0] = '\0';
+						if (buffer == NULL) perror("Error in malloc.");
+						printf("String has been reset.\n");
+						bufFilling = false;
+					}
+					else {
+						printf("Nothing to reset.\n");
+					}
+					i = 0;
+
 				}
-				i = 0;
-				
 			}
 		}
 	}
