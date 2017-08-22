@@ -1,22 +1,27 @@
 #include <stdio.h>
 #include "XMLTranslation.h"
+#include "hashset.h"
 #include <sys/timeb.h>
 #include <stdbool.h>
 
 int main(int argc, char * argv[])
 {
 
+	/*char *foo = "foo";
+	char *missing = "missing";
+	hashset_t set = hashset_create();
+
+	if (set == NULL) {
+		fprintf(stderr, "failed to create hashset instance\n");
+		abort();
+	}
+
+	hashset_add(set, foo);
+	
+	printf("true: %i\nfalse: %i\n", hashset_is_member(set, foo), hashset_is_member(set, missing)); */
 
 
-
-
-
-
-
-
-
-
-
+	getFromEnum("enumtest");
 
 
 
@@ -29,7 +34,7 @@ int main(int argc, char * argv[])
 	//	diff = (double)(1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
 	//	printf("%.0f\n", diff);
 	//}
-	//fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/Testing Files/656537", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
+	// fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/Testing Files/656537", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
 
 	////////////////// runs through all the characters and does nothing to them
 
