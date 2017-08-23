@@ -21,7 +21,4 @@ void dString_fill(dString *, char *);
 void dString_changeChar(dString *, size_t, char);
 
 //append a char to the end of a string
-void appendChar(dString *, char);
-
-//get the string
-char * getString(dString *);
+void dString_append(dString *, char);
