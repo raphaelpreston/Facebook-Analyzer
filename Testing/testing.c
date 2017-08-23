@@ -73,52 +73,11 @@ int main(int argc, char * argv[])
 	dString_changeChar(dStrBig, 5, '*');
 	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
 
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
-	printf("Appending \"&\" to dStringBig\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_append(dStrBig, '&');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-
+	for (int i = 0; i < 10000; i++) {
+		printf("%i: Appending \"&\" to dStringBig\n", i);
+		dString_append(dStrBig, '&');
+		printf("After: Size: %i | Idx: %i\n\n", dStrBig->size, dStrBig->idx);
+	}
 
 	printf("Deleting dString...\n\n");
 	dString_delete(dStr);
