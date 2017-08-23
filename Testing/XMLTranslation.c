@@ -221,6 +221,8 @@ int loadXML(char * fileName) {
 	}
 }
 
+
+/*
 int getFromEnum(char * keyNoTerm) {
 	FILE * enumFile;
 	enumFile = fopen(ENUM, "r");
@@ -307,3 +309,5 @@ char * cAppend(char * str, char c) {	//takes a string and a char, appends them a
 	free(str);
 	return tmp;
 }
+
+*/

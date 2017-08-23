@@ -24,7 +24,7 @@ int main(int argc, char * argv[])
 
 	//getFromEnum("enumtest");
 	//d string testing:
-	printf("Initializing dString...\n\n");
+	/*printf("Initializing dString...\n\n");
 	dString * dStr;
 	dStr = dString_new(5);
 	dString * dStrSmall;
@@ -82,7 +82,7 @@ int main(int argc, char * argv[])
 	printf("Deleting dString...\n\n");
 	dString_delete(dStr);
 
-	printf("Everything completed.\n");
+	printf("Everything completed.\n");*/
 
 
 
