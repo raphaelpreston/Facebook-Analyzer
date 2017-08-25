@@ -2,7 +2,18 @@
 #include <time.h>
 
 //structs
-//
+
+/* structs for utlist.h - needed for speakers and words */
+
+
+
+
+
+
+
+
+
+
 //struct Thread {
 //	UT_array * speakers;		//array of pointers to participants in conversation
 //	UT_array * messages;		//array of pointers to each message
@@ -21,7 +32,6 @@
 //	UT_string * content;	//content of the message
 //	UT_hash_handle hh;		
 //} message_t;
-
 
 /* Function to translate the facebook HTML file into a pretty XML file.  Assumes there are no < or > characters in file, which is fine because Facebook converts them to &lt and &gt.
 @param1: Path to input file

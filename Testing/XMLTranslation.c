@@ -185,129 +185,23 @@ int fileToXML(char * input, char * output)
 }
 
 int loadXML(char * fileName) {
-	int numSpeakers;
-	int numWords;
-
-	//check to see if ENUMERATE file is able to be read, if so, get the data from it
-	FILE * enumFile;
-	enumFile = fopen(ENUM, "r");
-	if (enumFile != NULL) {
-		numSpeakers = getFromEnum("numSpeakers");
-		numWords = getFromEnum("numWords");
-		//successfully loaded data from enums file, can now make hashmaps
-	}
-	fclose(enumFile);
-	//reopen for writing data into it
-
-
+	//error checking for input file
 	FILE * input;
 	input = fopen(fileName, "r");
 	if (input == NULL) {
 		perror("Error opening input file!!");
 		return 1;
 	}
-	//hashsets to enumerate unique words and speakers
-	hashset_t speakers = hashset_create();
-	hashset_t words = hashset_create();
-	if (speakers == NULL || words == NULL) {
-		printf("Failed to create a hashtable instance.");
-		return 3;
-	}
 
+	/* create hashtables to keep track of words and speakers. */
+
+	/* create b+ tree for timestamps */
+
+
+	/* load in data */
 	char c;
 	while ((c = fgetc(input)) != EOF) {
-		//loop until we hit a 
+
 
 	}
 }
-
-
-/*
-int getFromEnum(char * keyNoTerm) {
-	FILE * enumFile;
-	enumFile = fopen(ENUM, "r");
-	if (enumFile == NULL) {
-		printf("Error opening file.");
-		return -1;
-	}
-	long int loc;
-	int f = 6;
-	char * key;
-	key = (char *)malloc(strlen(keyNoTerm) + 3 + 1);
-	strcpy(key, keyNoTerm);
-	strcat(key, " : ");	//add terminating string to the key
-
-	bool rec = false;
-	bool bufFilling = false;
-	const int size = strlen(key);	
-	char * buffer;
-	buffer = (char *)malloc(size + 1);	//allocate space for buffer string
-	if (buffer == NULL) perror("Error in malloc.");
-	buffer[0] = '\0'; //must start buffer out as empty even though there is the correct amount of allocated space for it
-	int i = 0;	//keep track of position in char array
-	//loop through file until match is made
-	char c;
-
-	while ((c = fgetc(enumFile)) != EOF) {
-		printf("Analyzing %c, index is %i and size is %i\n", c, i, size);
-		if (rec) {
-
-		}
-		else {	//not recording
-			if (i == size) {	//if a match has been found, start reading in the data
-				printf("i == size!!!! Theres a match.\n");
-				free(buffer);
-				return -1;
-			}
-			else {	//no match made yet
-				if (c == key[i]) {	//the characters match
-					buffer = cAppend(buffer, c);
-					i++;
-					printf("Characters match, string is now %s\n", buffer);
-					bufFilling = true;
-				}
-				else {	//chars don't match, so restart
-					if (bufFilling) {
-						free(buffer);
-						buffer = (char *)malloc(size + 1);	//reallocate buffer
-						buffer[0] = '\0';
-						if (buffer == NULL) perror("Error in malloc.");
-						printf("String has been reset.\n");
-						bufFilling = false;
-					}
-					else {
-						printf("Nothing to reset.\n");
-					}
-					i = 0;
-
-				}
-			}
-		}
-	}
-
-	fclose(enumFile);
-	return -1;
-}
-
-
-char * cAppend(char * str, char c) {	//takes a string and a char, appends them and returns the new string
-	size_t len = strlen(str);
-
-	//allocate space for temp string
-	char * tmp;
-	tmp = (char *)malloc(len + 2);	//enough room for '\0' and the char
-	if (tmp == NULL) perror("Error in malloc.");
-
-	//copy str into tmp
-	strcpy(tmp, str);
-
-	//append the char
-	tmp[len] = c;
-	tmp[len + 1] = '\0';
-
-	//free old str and return new one
-	free(str);
-	return tmp;
-}
-
-*/

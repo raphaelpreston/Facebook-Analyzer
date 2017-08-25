@@ -21,15 +21,6 @@
     <ClCompile Include="XMLTranslation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hash.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hashset.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dString.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,16 +29,13 @@
     <ClInclude Include="XMLTranslation.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="hash.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dll.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hashset.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="dString.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utlist.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uthash.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

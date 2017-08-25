@@ -1,25 +1,60 @@
 #include <stdio.h>
 #include "XMLTranslation.h"
-#include "hashset.h"
+#include "utlist.h"
 #include <sys/timeb.h>
 #include <stdbool.h>
 #include "dString.h"
+#include <time.h>
 
 int main(int argc, char * argv[])
 {
+	// linked list testing
 
-	/*char *foo = "foo";
-	char *missing = "missing";
-	hashset_t set = hashset_create();
+	typedef struct word_node {
+		char * word;
+		struct tm tstamp;
+		struct element * next;
+	}word_node;
 
-	if (set == NULL) {
-		fprintf(stderr, "failed to create hashset instance\n");
-		abort();
-	}
+	word_node * head = NULL;
 
-	hashset_add(set, foo);
-	
-	printf("true: %i\nfalse: %i\n", hashset_is_member(set, foo), hashset_is_member(set, missing)); */
+	word_node * n1 = (word_node *)malloc(sizeof(word_node));
+	word_node * n2 = (word_node *)malloc(sizeof(word_node));
+	word_node * n3 = (word_node *)malloc(sizeof(word_node));
+
+
+	n1->word = (char *)malloc(sizeof(char) * 6);
+	strcpy(n1->word, "node1");
+	n1->tstamp.tm_sec = 0;	/* seconds,  range 0 to 59          */
+	n1->tstamp.tm_min = 12;	/* minutes, range 0 to 59           */
+	n1->tstamp.tm_hour = 6;	/* hours, range 0 to 23             */
+	n1->tstamp.tm_mday = 
+	n1->tstamp.tm_mon;
+	n1->tstamp.tm_year;
+	n1->tstamp.tm_wday;
+
+
+
+	LL_PREPEND(head, n1);
+	LL_PREPEND(head, n2);
+	LL_PREPEND(head, n3);
+
+	word_node search;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	//getFromEnum("enumtest");
