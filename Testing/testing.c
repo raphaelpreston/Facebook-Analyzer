@@ -25,21 +25,24 @@ int main(int argc, char * argv[])
 
 	n1->word = (char *)malloc(sizeof(char) * 6);
 	strcpy(n1->word, "node1");
-	n1->tstamp.tm_sec = 0;	/* seconds,  range 0 to 59          */
-	n1->tstamp.tm_min = 12;	/* minutes, range 0 to 59           */
-	n1->tstamp.tm_hour = 6;	/* hours, range 0 to 23             */
-	n1->tstamp.tm_mday = 
-	n1->tstamp.tm_mon;
-	n1->tstamp.tm_year;
-	n1->tstamp.tm_wday;
+	n1->tstamp.tm_sec = 0;		/* seconds, range 0 to 59        */
+	n1->tstamp.tm_min = 12;		/* minutes, range 0 to 59        */
+	n1->tstamp.tm_hour = 6;		/* hours,   range 0 to 23        */
+	n1->tstamp.tm_mday = 15;	/* day of  month, range 1 to 31  */
+	n1->tstamp.tm_mon = 4;		/* month, range 0 to 11          */
+	n1->tstamp.tm_year = 25;	/* number of years since 1900    */
+	n1->tstamp.tm_wday = 5;		/* day of the week, range 0 to 6 */
 
+	char * time;
+	time = (char *)malloc(100);
+	strftime(time, 99, "%A, %B %#d, %Y at %#I:%#M%p", &(n1->tstamp));
+	printf("%s\n", time);
 
+	//LL_PREPEND(head, n1);
+	//LL_PREPEND(head, n2);
+	//LL_PREPEND(head, n3);
 
-	LL_PREPEND(head, n1);
-	LL_PREPEND(head, n2);
-	LL_PREPEND(head, n3);
-
-	word_node search;
+	//word_node search;
 
 
 

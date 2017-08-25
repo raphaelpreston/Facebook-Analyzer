@@ -3,9 +3,15 @@
 
 //structs
 
-/* structs for utlist.h - needed for speakers and words */
+/* structs and functions for utlist.h - needed for speakers and words */
 
+typedef struct word_node {
+	char * word;
+	struct tm tstamp;
+	struct element * next;
+}word_node;
 
+int word_node_create();
 
 
 
