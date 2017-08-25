@@ -5,13 +5,22 @@
 
 /* structs and functions for utlist.h - needed for speakers and words */
 
+typedef struct tstamp {
+	int min;	// seconds
+	int hour;	// hour
+	int ampm;	// am or pm
+	int mday;	// day of month
+	int month;	// month
+	int year;	// year
+	int wday;	// day of week (0 is sunday)
+	int utc;	// ex: 1.5 or -1.5 off of GMT
+}tstamp_t;
+
 typedef struct word_node {
 	char * word;
-	struct tm tstamp;
-	struct element * next;
+	tstamp_t tstamp;
+	struct word_node * next;
 }word_node;
-
-int word_node_create();
 
 
 

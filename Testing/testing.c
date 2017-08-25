@@ -6,16 +6,15 @@
 #include "dString.h"
 #include <time.h>
 
+int print_time(tstamp_t tstmp) {
+	char * day;
+	day = (char *)malloc(sizeof(char));
+}
+
 int main(int argc, char * argv[])
 {
 	// linked list testing
-
-	typedef struct word_node {
-		char * word;
-		struct tm tstamp;
-		struct element * next;
-	}word_node;
-
+	
 	word_node * head = NULL;
 
 	word_node * n1 = (word_node *)malloc(sizeof(word_node));
@@ -25,24 +24,92 @@ int main(int argc, char * argv[])
 
 	n1->word = (char *)malloc(sizeof(char) * 6);
 	strcpy(n1->word, "node1");
-	n1->tstamp.tm_sec = 0;		/* seconds, range 0 to 59        */
-	n1->tstamp.tm_min = 12;		/* minutes, range 0 to 59        */
-	n1->tstamp.tm_hour = 6;		/* hours,   range 0 to 23        */
-	n1->tstamp.tm_mday = 15;	/* day of  month, range 1 to 31  */
-	n1->tstamp.tm_mon = 4;		/* month, range 0 to 11          */
-	n1->tstamp.tm_year = 25;	/* number of years since 1900    */
-	n1->tstamp.tm_wday = 5;		/* day of the week, range 0 to 6 */
+	n1->tstamp.min = 12;
+	n1->tstamp.hour = 6;
+	n1->tstamp.mday = 15;
+	n1->tstamp.month = 4;
+	n1->tstamp.year = 25;
+	n1->tstamp.wday = 5;
+	n1->tstamp.utc = 1;
 
-	char * time;
-	time = (char *)malloc(100);
-	strftime(time, 99, "%A, %B %#d, %Y at %#I:%#M%p", &(n1->tstamp));
-	printf("%s\n", time);
+	for (int i = -1; i < 8; i++) {
+		int size = (i == 0 || i == 1 || i == 5) ? 6 : i == 2 ? 7 : (i == 4 || i == 6) ? 8 : i == 3 ? 9 : -1;
+		printf("i: %i size: %i\n", i, size);
+	}
+	
+	printf("%\n", time);
 
 	//LL_PREPEND(head, n1);
 	//LL_PREPEND(head, n2);
 	//LL_PREPEND(head, n3);
 
 	//word_node search;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//typedef struct word_node {
+	//	char * word;
+	//	struct tm tstamp;
+	//	struct element * next;
+	//}word_node;
+
+	//word_node * head = NULL;
+
+	//word_node * n1 = (word_node *)malloc(sizeof(word_node));
+	//word_node * n2 = (word_node *)malloc(sizeof(word_node));
+	//word_node * n3 = (word_node *)malloc(sizeof(word_node));
+
+
+	//n1->word = (char *)malloc(sizeof(char) * 6);
+	//strcpy(n1->word, "node1");
+	//n1->tstamp.tm_sec = 0;		/* seconds, range 0 to 59        */
+	//n1->tstamp.tm_min = 12;		/* minutes, range 0 to 59        */
+	//n1->tstamp.tm_hour = 6;		/* hours,   range 0 to 23        */
+	//n1->tstamp.tm_mday = 15;	/* day of  month, range 1 to 31  */
+	//n1->tstamp.tm_mon = 4;		/* month, range 0 to 11          */
+	//n1->tstamp.tm_year = 25;	/* number of years since 1900    */
+	//n1->tstamp.tm_wday = 5;		/* day of the week, range 0 to 6 */
+
+	//char * time;
+	//time = (char *)malloc(100);
+	//strftime(time, 99, "%A, %B %#d, %Y at %#I:%#M%p", &(n1->tstamp));
+	//printf("%s\n", time);
+
+	////LL_PREPEND(head, n1);
+	////LL_PREPEND(head, n2);
+	////LL_PREPEND(head, n3);
+
+	////word_node search;
 
 
 
