@@ -10,7 +10,7 @@ typedef struct tstamp {
 	int hour;	// hour
 	int ampm;	// am or pm
 	int mday;	// day of month
-	int month;	// month
+	int month;	// month (0 is January)
 	int year;	// year
 	int wday;	// day of week (0 is sunday)
 	int utc;	// ex: 1.5 or -1.5 off of GMT

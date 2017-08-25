@@ -6,9 +6,22 @@
 #include "dString.h"
 #include <time.h>
 
-int print_time(tstamp_t tstmp) {
+int print_time(tstamp_t * tstmp) {
+	//get the day in english
 	char * day;
-	day = (char *)malloc(sizeof(char));
+	day = (char *)malloc(sizeof(char) * (tstmp->wday == 0 || tstmp->wday == 1 || tstmp->wday == 5 ? 6 : tstmp->wday == 2 ? 7 : tstmp->wday == 4 || tstmp->wday == 6 ? 8 : tstmp->wday == 3 ? 9 : -1) + 1);
+	if (day == NULL) perror("Error mallocing for day of month.");
+	strcpy(day, tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown");
+
+	//get the month in english
+	char * month;
+	month = (char *)malloc(sizeof(char) * (tstmp->month == 4 ? 3 : tstmp->month == 5 || tstmp->month == 6 ? 4 : tstmp->month == 2 || tstmp->month == 3 ? 5 : tstmp->month == 7 ? 6 : tstmp->month == 9 || tstmp->month == 0 ? 7 : tstmp->month == 1 || tstmp->month == 10 || tstmp->month == 11 ? 8 : tstmp->month == 8 ? 9 : -1) + 1);
+	if (month == NULL) perror("Error mallocing for month.");
+	strcpy(month, tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown");
+
+	//get the timezone in english
+
+	//working here
 }
 
 int main(int argc, char * argv[])
@@ -32,9 +45,10 @@ int main(int argc, char * argv[])
 	n1->tstamp.wday = 5;
 	n1->tstamp.utc = 1;
 
-	for (int i = -1; i < 8; i++) {
-		int size = (i == 0 || i == 1 || i == 5) ? 6 : i == 2 ? 7 : (i == 4 || i == 6) ? 8 : i == 3 ? 9 : -1;
-		printf("i: %i size: %i\n", i, size);
+	for (int i = 0; i < 13; i++) {
+		// int size = 
+		//printf("i: %i size: %i\n", i, size);
+		printf("tstmp->month==%i?  : ", i);
 	}
 	
 	printf("%\n", time);
