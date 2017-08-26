@@ -7,21 +7,8 @@
 #include <time.h>
 
 int print_time(tstamp_t * tstmp) {
-	//get the day in english
-	char * day;
-	day = (char *)malloc(sizeof(char) * (tstmp->wday == 0 || tstmp->wday == 1 || tstmp->wday == 5 ? 6 : tstmp->wday == 2 ? 7 : tstmp->wday == 4 || tstmp->wday == 6 ? 8 : tstmp->wday == 3 ? 9 : -1) + 1);
-	if (day == NULL) perror("Error mallocing for day of month.");
-	strcpy(day, tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown");
-
-	//get the month in english
-	char * month;
-	month = (char *)malloc(sizeof(char) * (tstmp->month == 4 ? 3 : tstmp->month == 5 || tstmp->month == 6 ? 4 : tstmp->month == 2 || tstmp->month == 3 ? 5 : tstmp->month == 7 ? 6 : tstmp->month == 9 || tstmp->month == 0 ? 7 : tstmp->month == 1 || tstmp->month == 10 || tstmp->month == 11 ? 8 : tstmp->month == 8 ? 9 : -1) + 1);
-	if (month == NULL) perror("Error mallocing for month.");
-	strcpy(month, tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown");
-
-	//get the timezone in english
-
-	//working here
+	//not dealing with time zones cus facebook only supplies with "MST" and whatnot and there are too many duplicates of the abbreviations to be viable
+	printf("%s, %s %i, %i at %i:%i%s", tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown", tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown", tstmp->mday, tstmp->year, tstmp->hour, tstmp->min, tstmp->ampm==0 ? "am" : tstmp->ampm == 1 ? "pm" : "unknown");
 }
 
 int main(int argc, char * argv[])
@@ -34,24 +21,17 @@ int main(int argc, char * argv[])
 	word_node * n2 = (word_node *)malloc(sizeof(word_node));
 	word_node * n3 = (word_node *)malloc(sizeof(word_node));
 
-
 	n1->word = (char *)malloc(sizeof(char) * 6);
 	strcpy(n1->word, "node1");
 	n1->tstamp.min = 12;
 	n1->tstamp.hour = 6;
 	n1->tstamp.mday = 15;
 	n1->tstamp.month = 4;
-	n1->tstamp.year = 25;
+	n1->tstamp.year = 1925;
 	n1->tstamp.wday = 5;
-	n1->tstamp.utc = 1;
-
-	for (int i = 0; i < 13; i++) {
-		// int size = 
-		//printf("i: %i size: %i\n", i, size);
-		printf("tstmp->month==%i?  : ", i);
-	}
+	n1->tstamp.ampm = 1;
 	
-	printf("%\n", time);
+	print_time(&(n1->tstamp));
 
 	//LL_PREPEND(head, n1);
 	//LL_PREPEND(head, n2);

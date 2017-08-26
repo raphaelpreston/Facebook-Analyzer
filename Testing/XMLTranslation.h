@@ -8,12 +8,11 @@
 typedef struct tstamp {
 	int min;	// seconds
 	int hour;	// hour
-	int ampm;	// am or pm
+	int ampm;	// am or pm (0 for am, 1 for pm)
 	int mday;	// day of month
 	int month;	// month (0 is January)
 	int year;	// year
 	int wday;	// day of week (0 is sunday)
-	int utc;	// ex: 1.5 or -1.5 off of GMT
 }tstamp_t;
 
 typedef struct word_node {
