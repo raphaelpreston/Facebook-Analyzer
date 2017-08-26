@@ -11,12 +11,51 @@ int print_time(tstamp_t * tstmp) {
 	printf("%s, %s %i, %i at %i:%i%s", tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown", tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown", tstmp->mday, tstmp->year, tstmp->hour, tstmp->min, tstmp->ampm==0 ? "am" : tstmp->ampm == 1 ? "pm" : "unknown");
 }
 
+int tstamp_comp(tstamp_t * ts1, tstamp_t * ts2) {
+	//-1: ts1 < ts2
+	//0: ts1 == ts2
+	//1: ts1 > ts2
+
+	/* get 24 hour time */
+	int ts1_hour24 = ts1->hour == 12 ? ts1->ampm == 0 ? 0 : 12 : ts1->ampm == 0 ? ts1->hour : ts1->hour + 12;
+	int ts2_hour24 = ts2->hour == 12 ? ts2->ampm == 0 ? 0 : 12 : ts2->ampm == 0 ? ts2->hour : ts2->hour + 12;
+	
+	/* compare year */
+	if (ts1->year != ts2->year) return ts1->year > ts2->year ? 1 : -1;
+	
+	/* compare month */
+	if (ts1->month != ts2->month) return ts1->month > ts2->month ? 1 : -1;
+
+	/* compare day of the month */
+	if (ts1->mday != ts2->mday) return ts1->mday > ts2->mday ? 1 : -1;
+
+	/* compare hour */
+	if (ts1_hour24 != ts2_hour24) return ts1_hour24 > ts2_hour24 ? 1 : -1;
+
+	/* compare minutes */
+	if (ts1->min != ts2->min) return ts1->min > ts2->min ? 1 : -1;
+
+	perror("Error comparing times.");
+}
+
 int main(int argc, char * argv[])
 {
 	// linked list testing
 	
-	word_node * head = NULL;
+	// word_node * head = NULL;
 
+	for (int hour = 1; hour < 13; hour++) {
+		int ampm = 0;
+		for(int min = 0; min < 60; min++)
+			printf("%i:%iam is %i:%i\n", hour, min, hour == 12 ? ampm == 0 ? 0 : 12 : ampm == 0 ? hour : hour + 12, min);
+	}
+	for (int hour = 1; hour < 13; hour++) {
+		int ampm = 1;
+		for (int min = 0; min < 60; min++)
+			printf("%i:%ipm is %i:%i\n", hour, min, hour == 12 ? ampm == 0 ? 0 : 12 : ampm == 0 ? hour : hour + 12, min);
+	}
+	
+		/*
 	word_node * n1 = (word_node *)malloc(sizeof(word_node));
 	word_node * n2 = (word_node *)malloc(sizeof(word_node));
 	word_node * n3 = (word_node *)malloc(sizeof(word_node));
@@ -24,18 +63,44 @@ int main(int argc, char * argv[])
 	n1->word = (char *)malloc(sizeof(char) * 6);
 	strcpy(n1->word, "node1");
 	n1->tstamp.min = 12;
-	n1->tstamp.hour = 6;
-	n1->tstamp.mday = 15;
+	n1->tstamp.hour = 4;
+	n1->tstamp.mday = 14;
 	n1->tstamp.month = 4;
 	n1->tstamp.year = 1925;
-	n1->tstamp.wday = 5;
-	n1->tstamp.ampm = 1;
-	
-	print_time(&(n1->tstamp));
+	n1->tstamp.wday = 6;
+	n1->tstamp.ampm = 0;
 
-	//LL_PREPEND(head, n1);
-	//LL_PREPEND(head, n2);
-	//LL_PREPEND(head, n3);
+	n2->word = (char *)malloc(sizeof(char) * 6);
+	strcpy(n2->word, "node2");
+	n2->tstamp.min = 11;
+	n2->tstamp.hour = 4;
+	n2->tstamp.mday = 14;
+	n2->tstamp.month = 4;
+	n2->tstamp.year = 1925;
+	n2->tstamp.wday = 6;
+	n2->tstamp.ampm = 0;
+
+	n3->word = (char *)malloc(sizeof(char) * 6);
+	strcpy(n3->word, "node3");
+	n3->tstamp.min = 54;
+	n3->tstamp.hour = 1;
+	n3->tstamp.mday = 7;
+	n3->tstamp.month = 3;
+	n3->tstamp.year = 1926;
+	n3->tstamp.wday = 0;
+	n3->tstamp.ampm = 0;
+
+	printf("%s: ", n1->word);
+	print_time(&(n1->tstamp));
+	printf("\n%s: ", n2->word);
+	print_time(&(n2->tstamp));
+	printf("\n%s: ", n3->word);
+	print_time(&(n3->tstamp));
+	printf("\n");
+
+	LL_PREPEND(head, n1);
+	LL_PREPEND(head, n2);
+	LL_PREPEND(head, n3);*/
 
 	//word_node search;
 
