@@ -3,6 +3,7 @@
 #include "hashset.h"
 #include <stdbool.h>
 #include <string.h>
+#include "utlist.h"
 
 #define MAXSTATES 5
 #define ENUM "C:/Users/IAMFRANK/Documents/FB Testing/ENUMERATE"
@@ -204,5 +205,117 @@ int loadXML(char * fileName) {
 
 
 	}
+}
+
+void print_time(tstamp_t * tstmp) {
+	printf("%s, %s %i, %i at %i:%i%s", tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown", tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown", tstmp->mday, tstmp->year, tstmp->hour, tstmp->min, tstmp->ampm == 0 ? "am" : tstmp->ampm == 1 ? "pm" : "unknown");
+}
+
+int tstamp_comp_asc(tstamp_t * ts1, tstamp_t * ts2) {
+	//-1: ts1 < ts2
+	//0: ts1 == ts2
+	//1: ts1 > ts2
+	//not dealing with time zones cus facebook only supplies with "MST" and whatnot and there are too many duplicates of the abbreviations to be viable
+
+	/* get 24 hour time */
+	int ts1_hour24 = ts1->hour == 12 ? ts1->ampm == 0 ? 0 : 12 : ts1->ampm == 0 ? ts1->hour : ts1->hour + 12;
+	int ts2_hour24 = ts2->hour == 12 ? ts2->ampm == 0 ? 0 : 12 : ts2->ampm == 0 ? ts2->hour : ts2->hour + 12;
+
+	/* compare year */
+	if (ts1->year != ts2->year) return ts1->year > ts2->year ? -1 : 1;
+
+	/* compare month */
+	if (ts1->month != ts2->month) return ts1->month > ts2->month ? -1 : 1;
+
+	/* compare day of the month */
+	if (ts1->mday != ts2->mday) return ts1->mday > ts2->mday ? -1 : 1;
+
+	/* compare hour */
+	if (ts1_hour24 != ts2_hour24) return ts1_hour24 > ts2_hour24 ? -1 : 1;
+
+	/* compare minutes */
+	if (ts1->min != ts2->min) return ts1->min > ts2->min ? -1 : 1;
+	else return 0;
+
+	perror("Error comparing times.");
+}
+
+int tstamp_comp_desc(tstamp_t * ts1, tstamp_t * ts2) {
+	//-1: ts1 < ts2
+	//0: ts1 == ts2
+	//1: ts1 > ts2
+	//not dealing with time zones cus facebook only supplies with "MST" and whatnot and there are too many duplicates of the abbreviations to be viable
+
+	/* get 24 hour time */
+	int ts1_hour24 = ts1->hour == 12 ? ts1->ampm == 0 ? 0 : 12 : ts1->ampm == 0 ? ts1->hour : ts1->hour + 12;
+	int ts2_hour24 = ts2->hour == 12 ? ts2->ampm == 0 ? 0 : 12 : ts2->ampm == 0 ? ts2->hour : ts2->hour + 12;
+
+	/* compare year */
+	if (ts1->year != ts2->year) return ts1->year > ts2->year ? 1 : -1;
+
+	/* compare month */
+	if (ts1->month != ts2->month) return ts1->month > ts2->month ? 1 : -1;
+
+	/* compare day of the month */
+	if (ts1->mday != ts2->mday) return ts1->mday > ts2->mday ? 1 : -1;
+
+	/* compare hour */
+	if (ts1_hour24 != ts2_hour24) return ts1_hour24 > ts2_hour24 ? 1 : -1;
+
+	/* compare minutes */
+	if (ts1->min != ts2->min) return ts1->min > ts2->min ? 1 : -1;
+	else return 0;
+
+	perror("Error comparing times.");
+}
+
+word_list * word_list_new(char * word) {
+	/* declare struct */
+	word_list * list;
+	list = (word_list *)malloc(sizeof(word_list));
+	if (list == NULL) {
+		perror("Error mallocing word_list.");
+		return;
+	}
+
+	/* set struct attributes */
+	list->head = NULL;
+	list->word = (char *)malloc(sizeof(char) * strlen(word) + 1);
+	strcpy(list->word, word);
+
+
+	return list;
+}
+
+message * message_new() {
+	/* allocate memory */
+	message * m;
+	m = (message *)malloc(sizeof(message));
+	if (m == NULL)perror("Error mallocing message");
+
+	/* set attributes */
+	m->tstamp = (tstamp_t *)malloc(sizeof(tstamp_t));
+	m->content = dString_new(10);
+
+
+	return m;
+}
+
+void message_set_tstamp(message * m, int hour, int min, int ampm, int wday, int month, int mday, int year) {
+	if (hour < 0 || hour > 12 || min < 0 || min > 60 || ampm < 0 || ampm > 1 || wday < 0 || wday > 6 || mday < 0 || mday > 31 || year < 0) perror("Unable to set timestamp.");
+	m->tstamp->hour = hour;
+	m->tstamp->min = min;
+	m->tstamp->ampm = ampm;
+	m->tstamp->wday = wday;
+	m->tstamp->month = month;
+	m->tstamp->mday = mday;
+	m->tstamp->year = year;
+
+	return;
+}
+
+void word_list_add_node(word_list * list, message * m) {
+	LL_PREPEND(list->head, m);
+	return;
 }
 

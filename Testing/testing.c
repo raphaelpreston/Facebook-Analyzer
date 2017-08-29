@@ -6,44 +6,124 @@
 #include "dString.h"
 #include <time.h>
 
-int print_time(tstamp_t * tstmp) {
-	printf("%s, %s %i, %i at %i:%i%s", tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown", tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown", tstmp->mday, tstmp->year, tstmp->hour, tstmp->min, tstmp->ampm==0 ? "am" : tstmp->ampm == 1 ? "pm" : "unknown");
-}
-
-int tstamp_comp(tstamp_t * ts1, tstamp_t * ts2) {
-	//-1: ts1 < ts2
-	//0: ts1 == ts2
-	//1: ts1 > ts2
-	//not dealing with time zones cus facebook only supplies with "MST" and whatnot and there are too many duplicates of the abbreviations to be viable
-
-	/* get 24 hour time */
-	int ts1_hour24 = ts1->hour == 12 ? ts1->ampm == 0 ? 0 : 12 : ts1->ampm == 0 ? ts1->hour : ts1->hour + 12;
-	int ts2_hour24 = ts2->hour == 12 ? ts2->ampm == 0 ? 0 : 12 : ts2->ampm == 0 ? ts2->hour : ts2->hour + 12;
-	
-	/* compare year */
-	if (ts1->year != ts2->year) return ts1->year > ts2->year ? -1 : 1;
-	
-	/* compare month */
-	if (ts1->month != ts2->month) return ts1->month > ts2->month ? -1 : 1;
-
-	/* compare day of the month */
-	if (ts1->mday != ts2->mday) return ts1->mday > ts2->mday ? -1 : 1;
-
-	/* compare hour */
-	if (ts1_hour24 != ts2_hour24) return ts1_hour24 > ts2_hour24 ? -1 : 1;
-
-	/* compare minutes */
-	if (ts1->min != ts2->min) return ts1->min > ts2->min ? -1 : 1;
-	else return 0;
-
-	perror("Error comparing times.");
-}
 
 int main(int argc, char * argv[])
 {
+	//hash testing
+
+	word_list * list = word_list_new("word");
+
+	message * m1 = message_new();
+	message_set_tstamp(m1, 6, 45, 0, 3, 6, 21, 1999);
+	message * m2 = message_new();
+	message_set_tstamp(m2, 1, 29, 1, 6, 10, 21, 2000);
+	message * m3 = message_new();
+	message_set_tstamp(m3, 6, 45, 0, 3, 6, 22, 1999);
+	message * m4 = message_new();
+	message_set_tstamp(m4, 7, 45, 0, 3, 6, 24, 1999);
+	message * m5 = message_new();
+	message_set_tstamp(m5, 12, 45, 0, 3, 6, 21, 1999);
+
+	word_list_add_node(list, m1);
+	word_list_add_node(list, m2);
+	word_list_add_node(list, m3);
+	word_list_add_node(list, m4);
+	word_list_add_node(list, m5);
+
+	message * search;
+	LL_FOREACH(list->head, search) {
+		printf("%s was said at ", list->word);
+		print_time(search->tstamp);
+		printf("\n");
+	}
+	
+
+
+
+
+
+	/*word_list l;
+	word_list * p;
+	word_list * r;
+	word_list * tmp;
+	word_list * lists = NULL;
+
+	r = (word_list*)malloc(sizeof(word_list));
+	memset(r, 0, sizeof(word_list));
+	r->head = (message *)malloc(sizeof(message));
+	if (r->head == NULL) return -1;
+	r->head->a = 'a';
+	r->head->b = 1;
+
+	HASH_ADD(hh, lists, head, sizeof(message), r);
+	
+	memset(&l, 0, sizeof(word_list));
+	l.head = (message *)malloc(sizeof(message));
+	l.head->a = 'a';
+	l.head->b = 1;
+
+	HASH_FIND(hh, lists, &l.head, sizeof(message), p);
+
+	if (p) printf("found %c %d\n", p->head->a, p->head->b);
+	else
+		printf("Not found.\n");
+
+	HASH_ITER(hh, lists, p, tmp) {
+		HASH_DEL(lists, p);
+		free(p);
+	}
+	return 0;*/
+
+
+	///////////////////////
+	 
+	 
+	//typedef struct {
+	//	char a;
+	//	int b;
+	//} record_key_t;
+
+	//typedef struct {
+	//	record_key_t key;
+	//	/* ... other data ... */
+	//	UT_hash_handle hh;
+	//} record_t;
+
+
+	//record_t l, *p, *r, *tmp, *records = NULL;
+
+	//r = (record_t*)malloc(sizeof(record_t));
+	//memset(r, 0, sizeof(record_t));
+	//r->key.a = 'a';
+	//r->key.b = 1;
+	//HASH_ADD(hh, records, key, sizeof(record_key_t), r);
+
+	//memset(&l, 0, sizeof(record_t));
+	//l.key.a = 'a';
+	//l.key.b = 1;
+	//HASH_FIND(hh, records, &l.key, sizeof(record_key_t), p);
+
+	//if (p) printf("found %c %d %c\n", p->key.a, p->key.b);
+	//else printf("Not found.\n");
+	//HASH_ITER(hh, records, p, tmp) {
+	//	HASH_DEL(records, p);
+	//	free(p);
+	//}
+	//return 0;
+
+
+
+
+
+
+
+
+
+
+
 	// linked list testing
 
-	word_node * head = NULL;
+	/*word_node * head = NULL;
 
 	word_node * n1 = (word_node *)malloc(sizeof(word_node));
 	word_node * n2 = (word_node *)malloc(sizeof(word_node));
@@ -106,7 +186,7 @@ int main(int argc, char * argv[])
 		printf("%s: ", elt->word);
 		print_time(&(elt->tstamp));
 		printf("\n");
-	}
+	}*/
 	
 
 
