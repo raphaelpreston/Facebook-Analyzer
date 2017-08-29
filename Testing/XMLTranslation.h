@@ -42,7 +42,7 @@ void message_set_tstamp(message *,int hour, int min, int ampm, int wday, int mon
 @param2: Message node to add*/
 void word_list_add_node(word_list *, message *);
 
-/* Function that initializes a new word list based on a given word.
+/* Function that initializes a new word list based on a given word.  Zeroes struct before filling with attributes for hashing.
 @param1: The word to initialize the list
 */
 word_list * word_list_new(char *);

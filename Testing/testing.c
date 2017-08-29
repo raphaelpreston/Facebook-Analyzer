@@ -11,32 +11,68 @@ int main(int argc, char * argv[])
 {
 	//hash testing
 
-	word_list * list = word_list_new("word");
+	word_list * lists = NULL;
 
-	message * m1 = message_new();
-	message_set_tstamp(m1, 6, 45, 0, 3, 6, 21, 1999);
-	message * m2 = message_new();
-	message_set_tstamp(m2, 1, 29, 1, 6, 10, 21, 2000);
-	message * m3 = message_new();
-	message_set_tstamp(m3, 6, 45, 0, 3, 6, 22, 1999);
-	message * m4 = message_new();
-	message_set_tstamp(m4, 7, 45, 0, 3, 6, 24, 1999);
-	message * m5 = message_new();
-	message_set_tstamp(m5, 12, 45, 0, 3, 6, 21, 1999);
+	word_list * list1 = word_list_new("list1");
 
-	word_list_add_node(list, m1);
-	word_list_add_node(list, m2);
-	word_list_add_node(list, m3);
-	word_list_add_node(list, m4);
-	word_list_add_node(list, m5);
+	message * l1m1 = message_new();
+	message_set_tstamp(l1m1, 6, 45, 0, 3, 6, 21, 1999);
+	message * l1m2 = message_new();
+	message_set_tstamp(l1m2, 1, 29, 1, 6, 10, 21, 2000);
+	message * l1m3 = message_new();
+	message_set_tstamp(l1m3, 6, 45, 0, 3, 6, 22, 1999);
+	message * l1m4 = message_new();
+	message_set_tstamp(l1m4, 7, 45, 0, 3, 6, 24, 1999);
+	message * l1m5 = message_new();
+	message_set_tstamp(l1m5, 12, 45, 0, 3, 6, 21, 1999);
 
+	word_list_add_node(list1, l1m1);
+	word_list_add_node(list1, l1m2);
+	word_list_add_node(list1, l1m3);
+	word_list_add_node(list1, l1m4);
+	word_list_add_node(list1, l1m5);
+
+	HASH_ADD_KEYPTR(hh, lists, list1->word, strlen(list1->word), list1);
+
+	HASH_FIND_STR(lists, "list1", list1);
+	if (list1) printf("list1 was found.\n");
+	else printf("List1 wasn't found :(\n");
+
+	/*word_list * list2 = word_list_new("list2");
+
+	message * l2m1 = message_new();
+	message_set_tstamp(l2m1, 7, 5, 0, 4, 8, 29, 1999);
+	message * l2m2 = message_new();
+	message_set_tstamp(l2m2, 5, 9, 1, 1, 10, 4, 2000);
+	message * l2m3 = message_new();
+	message_set_tstamp(l2m3, 4, 5, 0, 1, 9, 4, 1999);
+	message * l2m4 = message_new();
+	message_set_tstamp(l2m4, 7, 40, 0, 5, 11, 2, 1999);
+	message * l2m5 = message_new();
+	message_set_tstamp(l2m5, 1, 28, 0, 4, 10, 2, 1999);
+
+	word_list_add_node(list2, l2m1);
+	word_list_add_node(list2, l2m2);
+	word_list_add_node(list2, l2m3);
+	word_list_add_node(list2, l2m4);
+	word_list_add_node(list2, l2m5);
+	
+	word_list *l, *p, *r, *tmp, *lists = NULL;
+
+	
+	
+	
 	message * search;
-	LL_FOREACH(list->head, search) {
-		printf("%s was said at ", list->word);
+	LL_FOREACH(list1->head, search) {
+		printf("%s was said at ", list1->word);
 		print_time(search->tstamp);
 		printf("\n");
 	}
-	
+	LL_FOREACH(list2->head, search) {
+		printf("%s was said at ", list2->word);
+		print_time(search->tstamp);
+		printf("\n");
+	}*/
 
 
 

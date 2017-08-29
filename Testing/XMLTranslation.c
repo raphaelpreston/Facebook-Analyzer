@@ -208,7 +208,7 @@ int loadXML(char * fileName) {
 }
 
 void print_time(tstamp_t * tstmp) {
-	printf("%s, %s %i, %i at %i:%i%s", tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown", tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown", tstmp->mday, tstmp->year, tstmp->hour, tstmp->min, tstmp->ampm == 0 ? "am" : tstmp->ampm == 1 ? "pm" : "unknown");
+	printf("%s, %s %i, %i at %i:%s%i%s", tstmp->wday == 0 ? "Sunday" : tstmp->wday == 1 ? "Monday" : tstmp->wday == 2 ? "Tuesday" : tstmp->wday == 3 ? "Wednesday" : tstmp->wday == 4 ? "Thursday" : tstmp->wday == 5 ? "Friday" : tstmp->wday == 6 ? "Saturday" : "Unknown", tstmp->month == 0 ? "January" : tstmp->month == 1 ? "February" : tstmp->month == 2 ? "March" : tstmp->month == 3 ? "April" : tstmp->month == 4 ? "May" : tstmp->month == 5 ? "June" : tstmp->month == 6 ? "July" : tstmp->month == 7 ? "August" : tstmp->month == 8 ? "September" : tstmp->month == 9 ? "October" : tstmp->month == 10 ? "November" : tstmp->month == 11 ? "December" : "Unknown", tstmp->mday, tstmp->year, tstmp->hour, tstmp->min < 10 ? "0" : "", tstmp->min, tstmp->ampm == 0 ? "am" : tstmp->ampm == 1 ? "pm" : "unknown");
 }
 
 int tstamp_comp_asc(tstamp_t * ts1, tstamp_t * ts2) {
@@ -277,6 +277,9 @@ word_list * word_list_new(char * word) {
 		perror("Error mallocing word_list.");
 		return;
 	}
+
+	/* zero struct (required for hashing) */
+	memset(list, 0, sizeof(word_list));
 
 	/* set struct attributes */
 	list->head = NULL;
