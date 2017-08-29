@@ -322,3 +322,27 @@ void word_list_add_node(word_list * list, message * m) {
 	return;
 }
 
+word_hash * word_hash_init(){
+
+	/* declare the struct */
+	word_hash * hash;
+	hash = (word_hash *)malloc(sizeof(word_hash));
+
+	/* Set the head to NULL */
+	hash->head = NULL;
+
+	return hash;
+
+}
+
+void word_hash_add_list(word_hash * hash, word_list * list) {
+	if (list->word == NULL) { perror("Cant add a list with a null word."); return; }
+	HASH_ADD_KEYPTR(hh, hash->head, list->word, strlen(list->word), list);
+	return;
+}
+
+word_list * word_hash_find_list(word_hash * hash, char * word) {
+	word_list * search;
+	HASH_FIND_STR(hash->head, word, search);
+	return search;
+}

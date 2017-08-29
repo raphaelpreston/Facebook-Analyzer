@@ -10,8 +10,7 @@
 int main(int argc, char * argv[])
 {
 	//hash testing
-
-	word_list * lists = NULL;
+	word_hash * hash = word_hash_init();
 
 	word_list * list1 = word_list_new("list1");
 
@@ -32,11 +31,65 @@ int main(int argc, char * argv[])
 	word_list_add_node(list1, l1m4);
 	word_list_add_node(list1, l1m5);
 
+	word_hash_add_list(hash, list1);
+
+	word_list * search = word_hash_find_list(hash, "list1");
+
+	if (search) {
+		printf("list1 was found.  The word \"%s\" was said first on ", search->word);
+		print_time(search->head->tstamp);
+		printf("\n");
+	}
+	else printf("List1 wasn't found :(\n");
+
+
+	/*HASH_ADD_KEYPTR(hh, lists, list1->word, strlen(list1->word), list1);
+
+	wor
+	word_list * search;
+	HASH_FIND_STR(lists, "list1", search);
+	if (search) {
+		printf("list1 was found.  The word \"%s\" was said first on ", search->word);
+		print_time(search->head->tstamp);
+		printf("\n");
+	}
+	else printf("List1 wasn't found :(\n");*/
+
+
+
+
+	/*word_list * lists = NULL;
+
+	word_list * list1 = word_list_new("list1");
+
+	message * l1m1 = message_new();
+	message_set_tstamp(l1m1, 6, 45, 0, 3, 6, 21, 1999);
+	message * l1m2 = message_new();
+	message_set_tstamp(l1m2, 1, 29, 1, 6, 10, 21, 2000);
+	message * l1m3 = message_new();
+	message_set_tstamp(l1m3, 6, 45, 0, 3, 6, 22, 1999);
+	message * l1m4 = message_new();
+	message_set_tstamp(l1m4, 7, 45, 0, 3, 6, 24, 1999);
+	message * l1m5 = message_new();
+	message_set_tstamp(l1m5, 12, 45, 0, 3, 6, 21, 1999);
+
+	word_list_add_node(list1, l1m1);
+	word_list_add_node(list1, l1m2);
+	word_list_add_node(list1, l1m3);
+	word_list_add_node(list1, l1m4);
+	word_list_add_node(list1, l1m5);
+
+	word_hash_add_list()
 	HASH_ADD_KEYPTR(hh, lists, list1->word, strlen(list1->word), list1);
 
-	HASH_FIND_STR(lists, "list1", list1);
-	if (list1) printf("list1 was found.\n");
-	else printf("List1 wasn't found :(\n");
+	word_list * search;
+	HASH_FIND_STR(lists, "list1", search);
+	if (search) {
+		printf("list1 was found.  The word \"%s\" was said first on ", search->word);
+		print_time(search->head->tstamp);
+		printf("\n");
+	}
+	else printf("List1 wasn't found :(\n");*/
 
 	/*word_list * list2 = word_list_new("list2");
 

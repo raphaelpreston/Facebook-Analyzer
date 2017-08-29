@@ -29,6 +29,18 @@ typedef struct word_list {
 	UT_hash_handle hh;
 }word_list;
 
+typedef struct word_hash {
+	word_list * head;
+}word_hash;
+
+word_hash * word_hash_init();
+
+
+void word_hash_add_list(word_hash * hash, word_list * list);
+
+word_list * word_hash_find_list(word_hash * hash, char * word);
+
+
 /* Function to initialize a message node. 
 */
 message * message_new();
