@@ -17,7 +17,7 @@ int main(int argc, char * argv[])
 
 
 	//d string testing:
-	/*printf("Initializing dString...\n\n");
+	printf("Initializing dString...\n\n");
 	dString * dStr;
 	dStr = dString_new(5);
 	dString * dStrSmall;
@@ -26,6 +26,16 @@ int main(int argc, char * argv[])
 	dStrBig = dString_new(6);
 
 	
+	printf("Appending 'c' to dString...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_append(dStr, 'c');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Clearing dString...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_clear(dStr);
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
 	printf("Appending 'c' to dString...\n");
 	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
 	dString_append(dStr, 'c');
@@ -81,16 +91,16 @@ int main(int argc, char * argv[])
 	dString_clear(dStrBig);
 	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
 
-	for (int i = 0; i < 10000; i++) {
+	/*for (int i = 0; i < 10000; i++) {
 	printf("%i: Appending \"&\" to dStringBig\n", i);
 	dString_append(dStrBig, '&');
 	printf("After: Size: %i | Idx: %i\n\n", dStrBig->size, dStrBig->idx);
-	}
+	}*/
 
 	printf("Deleting dString...\n\n");
 	dString_delete(dStr);
 
-	printf("Everything completed.\n");*/
+	printf("Everything completed.\n");
 
 
 	////hash testing

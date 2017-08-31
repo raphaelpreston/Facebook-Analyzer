@@ -220,11 +220,8 @@ int loadXML(char * fileName) {
 	/* load in data */
 	char c;
 	while ((c = fgetc(input)) != EOF) {
-		printf("Analyzing '%c'...\n", c);
-		printf("Name buffer so far is %s...\n", name->buffer);
 		/* if reading */
 		if (reading == '[' || reading == ']' || reading == '{' || reading == '}' || reading == '<') {
-			printf("We are reading!\n");
 			/* stop reading if it's any of these and save to memory what it read */
 			if (c == '[') {
 				printf("Full name is %s...\n", name->buffer);
@@ -255,7 +252,6 @@ int loadXML(char * fileName) {
 			else {
 				if (reading == '[') {
 					dString_append(name, c);
-					printf("Just appended '%c' to dString name, now name is %s...\n", c, name->buffer);
 				}
 				else if (reading == ']') {
 					dString_append(thread, c);
@@ -275,13 +271,11 @@ int loadXML(char * fileName) {
 
 		/* not reading, but we hit an indicator */
 		else if (c == '[' || c == ']' || c == '{' || c == '}' || c == '<') {
-			printf("We are not reading!!\n");
 			reading = c;
-			printf("Set reading to '%c'...\n", reading);
 
 		}
 		else {
-			printf("Something else...\n");
+			//printf("Something else...\n");
 		}
 
 

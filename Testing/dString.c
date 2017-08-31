@@ -136,6 +136,6 @@ void dString_clear(dString * dStr) {
 	dStr->buffer[0] = '\0';
 
 	/* change index accordingly */
-	dStr->idx = 0;
+	dStr->idx = -1;
 	return;
 }
