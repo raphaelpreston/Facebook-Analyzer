@@ -13,7 +13,6 @@
 
 int main(int argc, char * argv[])
 {
-
 	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
 
 	//d string testing:

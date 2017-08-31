@@ -109,8 +109,10 @@ void dString_append(dString * dStr, char c) {
 }
 
 void dString_minimize(dString * dStr) {
-	/* make the new buffer */
 	size_t len = strlen(dStr->buffer);
+	if (dStr->size == len + 1) return;
+
+	/* make the new buffer */
 	char * buffer;
 	buffer = (char *)malloc(sizeof(char) * len + 1);
 	strcpy(buffer, dStr->buffer);
@@ -125,6 +127,7 @@ void dString_minimize(dString * dStr) {
 }
 
 void dString_clear(dString * dStr) {
+	if (strlen(dStr) == 0)return;
 	/* re-allocate memory */
 	free(dStr->buffer);
 	dStr->buffer = (char *)malloc(sizeof(char) * dStr->size);
