@@ -195,7 +195,6 @@ int loadXML(char * fileName) {
 	}
 
 	/* create hashtables to keep track of words and speakers. */
-
 	/* create b+ tree for timestamps */
 
 
@@ -341,8 +340,34 @@ void word_hash_add_list(word_hash * hash, word_list * list) {
 	return;
 }
 
-word_list * word_hash_find_list(word_hash * hash, char * word) {
-	word_list * search;
+word_list * word_hash_find_list(word_hash * hash, char * word, word_list * search) {
 	HASH_FIND_STR(hash->head, word, search);
 	return search;
+}
+
+void message_delete(message * m) {
+	free(m->tstamp);
+	free(m->content);
+}
+
+void word_list_delete(word_list * list) {
+	message *current, *tmp;
+	LL_FOREACH_SAFE(list->head, current, tmp) {
+		message_delete(current);
+		LL_DELETE(list->head, current);
+		free(current);
+	}
+	free(list->word);
+	free(list->head);
+	return;
+}
+
+void word_hash_delete(word_hash * hash) {
+	word_list *current, *tmp;
+	HASH_ITER(hh, hash->head, current, tmp) {
+		word_list_delete(current);
+		HASH_DEL(hash->head, current);
+		free(current);
+	}
+	free(tmp);
 }

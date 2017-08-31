@@ -6,16 +6,22 @@
 #include "dString.h"
 #include <time.h>
 
-#define N 1000
-#define A 1	//< B
-#define B 5	//> A
+#define N 10000
+#define A 10	//< B
+#define B 50	//> A
 #define RR(min,max) (rand() % (max + 1 - min) + min)
 
 int main(int argc, char * argv[])
 {
-	//hash testing
+
+	//loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+
+
+
+
+	////hash testing
 	word_hash * hash = word_hash_init();
-	
+	word_list * search;
 	/* make an array of N lists */
 	word_list * lists[N];
 
@@ -59,10 +65,16 @@ int main(int argc, char * argv[])
 		word_hash_add_list(hash, lists[i]);
 
 		/* check to make sure it was added */
-		word_list * found = word_hash_find_list(hash, word);
+		word_list * search;
+		search = NULL;
+		word_list * found = word_hash_find_list(hash, word, search);
+		free(search);
 		if (found) printf(" Word list adding confirmed.\n");
 		else printf(" Word list added failed.\n");
 	}
+
+	word_hash_delete(hash);
+	printf("Hash successfully deleted.\n");
 	//////////////////
 
 	/*word_list * list1 = word_list_new("list1");

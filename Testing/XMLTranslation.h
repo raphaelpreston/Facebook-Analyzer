@@ -38,9 +38,9 @@ word_hash * word_hash_init();
 
 void word_hash_add_list(word_hash * hash, word_list * list);
 
-/* Find a list for a word given a word 
+/* Find a list for a word given a word.  Must set search to NULL.
 */
-word_list * word_hash_find_list(word_hash * hash, char * word);
+word_list * word_hash_find_list(word_hash * hash, char * word, word_list * search);
 
 /* Function to initialize a message node. 
 */
@@ -85,3 +85,15 @@ Return Codes:
 2: Binary map error
 */
 int fileToXML(char * input, char * output);
+
+/*Deletes a message node.  Note: Doesn't actually free the message node.  Must do that after.
+*/
+void message_delete(message * m);
+
+/*Deletes a word list.  Note: Doesn't actually free the list.  Must do that after.
+*/
+void word_list_delete(word_list *);
+
+/*Deletes a word hash.  Note: Doesn't actually free the hash.  Must do that after. 
+*/
+void word_hash_delete(word_hash *);
