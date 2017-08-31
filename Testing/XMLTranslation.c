@@ -305,7 +305,7 @@ message * message_new() {
 }
 
 void message_set_tstamp(message * m, int hour, int min, int ampm, int wday, int month, int mday, int year) {
-	if (hour < 0 || hour > 12 || min < 0 || min > 60 || ampm < 0 || ampm > 1 || wday < 0 || wday > 6 || mday < 0 || mday > 31 || year < 0) perror("Unable to set timestamp.");
+	if (hour < 1 || hour > 12 || min < 1 || min > 60 || ampm < 0 || ampm > 1 || wday < 0 || wday > 6 || mday < 0 || mday > 31 || year < 0) perror("Unable to set timestamp.");
 	m->tstamp->hour = hour;
 	m->tstamp->min = min;
 	m->tstamp->ampm = ampm;

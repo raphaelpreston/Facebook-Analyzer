@@ -6,13 +6,66 @@
 #include "dString.h"
 #include <time.h>
 
+#define N 1000
+#define A 1	//< B
+#define B 5	//> A
+#define RR(min,max) (rand() % (max + 1 - min) + min)
 
 int main(int argc, char * argv[])
 {
 	//hash testing
 	word_hash * hash = word_hash_init();
+	
+	/* make an array of N lists */
+	word_list * lists[N];
 
-	word_list * list1 = word_list_new("list1");
+	time_t t;
+	srand((unsigned)time(&t));
+	/* populate each list with 'listN' */
+	for (int i = 0; i < N; i++) {
+		char * word;
+		word = (char *)malloc(sizeof(char) * 7);
+		sprintf(word, "list%i", i);
+		lists[i] = word_list_new(word);
+		printf("\nCreated new word_list: \"%s\"...\n", word);
+
+		/* populate each word list with anywhere from A to B messages*/
+		
+		int r = RR(A, B);
+		printf(" Filling list with %i messages...\n", r);
+		for (int k = 0; k < r; k++) {
+			/* make message */
+			message * m = message_new();
+
+			/* set message timestamp */
+			int hour = RR(1, 12);
+			int min = RR(1, 60);
+			int ampm = RR(0, 1);
+			int wday = RR(0, 6);
+			int month = RR(0, 11);
+			int mday = RR(1, 31);
+			int year = RR(2007, 2017);
+
+			message_set_tstamp(m, hour, min, ampm, wday, month, mday, year);
+			printf("  Set message timestamp to \"");
+			print_time(m->tstamp);
+			printf("\"...\n");
+
+			/* add message to list */
+			word_list_add_node(lists[i], m);
+			printf(" Added constructed message to list...\n");
+		}
+		/* add completed list to the hash */
+		word_hash_add_list(hash, lists[i]);
+
+		/* check to make sure it was added */
+		word_list * found = word_hash_find_list(hash, word);
+		if (found) printf(" Word list adding confirmed.\n");
+		else printf(" Word list added failed.\n");
+	}
+	//////////////////
+
+	/*word_list * list1 = word_list_new("list1");
 
 	message * l1m1 = message_new();
 	message_set_tstamp(l1m1, 6, 45, 0, 3, 6, 21, 1999);
@@ -40,7 +93,7 @@ int main(int argc, char * argv[])
 		print_time(search->head->tstamp);
 		printf("\n");
 	}
-	else printf("List1 wasn't found :(\n");
+	else printf("List1 wasn't found :(\n");*/
 
 
 	/*HASH_ADD_KEYPTR(hh, lists, list1->word, strlen(list1->word), list1);
