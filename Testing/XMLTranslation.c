@@ -195,13 +195,16 @@ int loadXML(char * fileName) {
 	}
 
 	/* create hashtables to keep track of words and speakers. */
+	word_hash * word_hash = word_hash_init();
+
 	/* create b+ tree for timestamps */
 
 
 	/* load in data */
 	char c;
+	dString * word = dString_new(5);
 	while ((c = fgetc(input)) != EOF) {
-
+		
 
 	}
 }

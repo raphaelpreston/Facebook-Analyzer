@@ -22,3 +22,6 @@ void dString_changeChar(dString *, size_t, char);
 
 //append a char to the end of a string
 void dString_append(dString *, char);
+
+//minimize the size to fit the strlen
+void dString_minimize(dString * dStr);

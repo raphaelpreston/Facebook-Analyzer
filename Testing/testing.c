@@ -14,67 +14,136 @@
 int main(int argc, char * argv[])
 {
 
-	//loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
 
+	//d string testing:
+	/*printf("Initializing dString...\n\n");
+	dString * dStr;
+	dStr = dString_new(5);
+	dString * dStrSmall;
+	dStrSmall = dString_new(4);
+	dString * dStrBig;
+	dStrBig = dString_new(6);
 
+	
+	printf("Filling dString with \"test\"...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_fill(dStr, "test");
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Filling dStringSmall with \"test\"...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
+	dString_fill(dStrSmall, "test");
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
+	
+	printf("Filling dStringBig with \"test\"...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_fill(dStrBig, "test");
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	
+	printf("Minimizing dStringBig...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_minimize(dStrBig);
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	
+	printf("Changing dString[2] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_changeChar(dStr, 2, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Changing dString[-1] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_changeChar(dStr, -1, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Changing dString[4] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_changeChar(dStr, 4, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
+	printf("Changing dStringBig[4] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_changeChar(dStrBig, 4, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+
+	printf("Changing dStringBig[5] to '*'...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_changeChar(dStrBig, 5, '*');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+
+	printf("Clearing dStringBig...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	dString_clear(dStrBig);
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+
+	for (int i = 0; i < 10000; i++) {
+	printf("%i: Appending \"&\" to dStringBig\n", i);
+	dString_append(dStrBig, '&');
+	printf("After: Size: %i | Idx: %i\n\n", dStrBig->size, dStrBig->idx);
+	}
+
+	printf("Deleting dString...\n\n");
+	dString_delete(dStr);
+
+	printf("Everything completed.\n");*/
 
 
 	////hash testing
-	word_hash * hash = word_hash_init();
-	word_list * search;
-	/* make an array of N lists */
-	word_list * lists[N];
+	//word_hash * hash = word_hash_init();
+	//word_list * search;
+	///* make an array of N lists */
+	//word_list * lists[N];
 
-	time_t t;
-	srand((unsigned)time(&t));
-	/* populate each list with 'listN' */
-	for (int i = 0; i < N; i++) {
-		char * word;
-		word = (char *)malloc(sizeof(char) * 7);
-		sprintf(word, "list%i", i);
-		lists[i] = word_list_new(word);
-		printf("\nCreated new word_list: \"%s\"...\n", word);
+	//time_t t;
+	//srand((unsigned)time(&t));
+	///* populate each list with 'listN' */
+	//for (int i = 0; i < N; i++) {
+	//	char * word;
+	//	word = (char *)malloc(sizeof(char) * 7);
+	//	sprintf(word, "list%i", i);
+	//	lists[i] = word_list_new(word);
+	//	printf("\nCreated new word_list: \"%s\"...\n", word);
 
-		/* populate each word list with anywhere from A to B messages*/
-		
-		int r = RR(A, B);
-		printf(" Filling list with %i messages...\n", r);
-		for (int k = 0; k < r; k++) {
-			/* make message */
-			message * m = message_new();
+	//	/* populate each word list with anywhere from A to B messages*/
+	//	
+	//	int r = RR(A, B);
+	//	printf(" Filling list with %i messages...\n", r);
+	//	for (int k = 0; k < r; k++) {
+	//		/* make message */
+	//		message * m = message_new();
 
-			/* set message timestamp */
-			int hour = RR(1, 12);
-			int min = RR(1, 60);
-			int ampm = RR(0, 1);
-			int wday = RR(0, 6);
-			int month = RR(0, 11);
-			int mday = RR(1, 31);
-			int year = RR(2007, 2017);
+	//		/* set message timestamp */
+	//		int hour = RR(1, 12);
+	//		int min = RR(1, 60);
+	//		int ampm = RR(0, 1);
+	//		int wday = RR(0, 6);
+	//		int month = RR(0, 11);
+	//		int mday = RR(1, 31);
+	//		int year = RR(2007, 2017);
 
-			message_set_tstamp(m, hour, min, ampm, wday, month, mday, year);
-			printf("  Set message timestamp to \"");
-			print_time(m->tstamp);
-			printf("\"...\n");
+	//		message_set_tstamp(m, hour, min, ampm, wday, month, mday, year);
+	//		printf("  Set message timestamp to \"");
+	//		print_time(m->tstamp);
+	//		printf("\"...\n");
 
-			/* add message to list */
-			word_list_add_node(lists[i], m);
-			printf(" Added constructed message to list...\n");
-		}
-		/* add completed list to the hash */
-		word_hash_add_list(hash, lists[i]);
+	//		/* add message to list */
+	//		word_list_add_node(lists[i], m);
+	//		printf(" Added constructed message to list...\n");
+	//	}
+	//	/* add completed list to the hash */
+	//	word_hash_add_list(hash, lists[i]);
 
-		/* check to make sure it was added */
-		word_list * search;
-		search = NULL;
-		word_list * found = word_hash_find_list(hash, word, search);
-		free(search);
-		if (found) printf(" Word list adding confirmed.\n");
-		else printf(" Word list added failed.\n");
-	}
+	//	/* check to make sure it was added */
+	//	word_list * search;
+	//	search = NULL;
+	//	word_list * found = word_hash_find_list(hash, word, search);
+	//	free(search);
+	//	if (found) printf(" Word list adding confirmed.\n");
+	//	else printf(" Word list added failed.\n");
+	//}
 
-	word_hash_delete(hash);
-	printf("Hash successfully deleted.\n");
+	//word_hash_delete(hash);
+	//printf("Hash successfully deleted.\n");
 	//////////////////
 
 	/*word_list * list1 = word_list_new("list1");

@@ -107,3 +107,32 @@ void dString_append(dString * dStr, char c) {
 	//update idx
 	dStr->idx += 1;
 }
+
+void dString_minimize(dString * dStr) {
+	/* make the new buffer */
+	size_t len = strlen(dStr->buffer);
+	char * buffer;
+	buffer = (char *)malloc(sizeof(char) * len + 1);
+	strcpy(buffer, dStr->buffer);
+
+	/* assign the new buffer and free the old one */
+	free(dStr->buffer);
+	dStr->buffer = buffer;
+
+	/* change size accordingly */
+	dStr->size = len + 1;
+	return;
+}
+
+void dString_clear(dString * dStr) {
+	/* re-allocate memory */
+	free(dStr->buffer);
+	dStr->buffer = (char *)malloc(sizeof(char) * dStr->size);
+
+	/* make it appear empty */
+	dStr->buffer[0] = '\0';
+
+	/* change index accordingly */
+	dStr->idx = 0;
+	return;
+}
