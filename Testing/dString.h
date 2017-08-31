@@ -25,3 +25,6 @@ void dString_append(dString *, char);
 
 //minimize the size to fit the strlen
 void dString_minimize(dString * dStr);
+
+//clear the dString
+void dString_clear(dString * dStr);

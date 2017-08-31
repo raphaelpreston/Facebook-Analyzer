@@ -7,7 +7,7 @@
 
 #define MAXSTATES 5
 #define ENUM "C:/Users/IAMFRANK/Documents/FB Testing/ENUMERATE"
-
+#define DSTRING_LENGTH 5
 int fileToXML(char * input, char * output)
 {
 	/* open necessary files */
@@ -195,18 +195,98 @@ int loadXML(char * fileName) {
 	}
 
 	/* create hashtables to keep track of words and speakers. */
-	word_hash * word_hash = word_hash_init();
+	word_hash * w_hash = word_hash_init();
 
 	/* create b+ tree for timestamps */
 
+	
+	
+	 
+	/* variables for keeping track of data */
+	message * message;
+	word_list * w_list;
+	
+	dString * name = dString_new(DSTRING_LENGTH);
+	dString * thread = dString_new(DSTRING_LENGTH);
+	dString * speaker = dString_new(DSTRING_LENGTH);
+	dString * tstamp = dString_new(DSTRING_LENGTH);
+	dString * content = dString_new(DSTRING_LENGTH);
 
+
+	dString * word = dString_new(DSTRING_LENGTH);
+
+	char reading = 'x';	//x for nothing, [ for name, ] for thread data, { for speaker, } for time stamp, < for content
+	
 	/* load in data */
 	char c;
-	dString * word = dString_new(5);
 	while ((c = fgetc(input)) != EOF) {
-		
+		printf("Analyzing '%c'...\n", c);
+		printf("Name buffer so far is %s...\n", name->buffer);
+		/* if reading */
+		if (reading == '[' || reading == ']' || reading == '{' || reading == '}' || reading == '<') {
+			printf("We are reading!\n");
+			/* stop reading if it's any of these and save to memory what it read */
+			if (c == '[') {
+				printf("Full name is %s...\n", name->buffer);
+				dString_clear(name);
+				reading = 'x';
+			}
+			else if (c == ']') {
+				printf("Thread is %s...\n", thread->buffer);
+				dString_clear(thread);
+				reading = 'x';
+			} 
+			else if (c == '{') {
+				printf("Speaker is %s...\n", speaker->buffer);
+				dString_clear(speaker);
+				reading = 'x';
+			}
+			else if (c == '}') {
+				printf("Tstamp is %s...\n", tstamp->buffer);
+				dString_clear(tstamp);
+				reading = 'x';
+			}
+			else if (c == '<') {
+				printf("Content is %s...\n", content->buffer);
+				dString_clear(content);
+				reading = 'x';
+			}
+			/* read the character in appropriately to the message buffer */
+			else {
+				if (reading == '[') {
+					dString_append(name, c);
+					printf("Just appended '%c' to dString name, now name is %s...\n", c, name->buffer);
+				}
+				else if (reading == ']') {
+					dString_append(thread, c);
+				}
+				else if (reading == '{') {
+					dString_append(speaker, c);
+				}
+				else if (reading == '}') {
+					dString_append(tstamp, c);
+				}
+				else if (reading == '<') {
+					dString_append(content, c);
+				}
+			}
+
+		}
+
+		/* not reading, but we hit an indicator */
+		else if (c == '[' || c == ']' || c == '{' || c == '}' || c == '<') {
+			printf("We are not reading!!\n");
+			reading = c;
+			printf("Set reading to '%c'...\n", reading);
+
+		}
+		else {
+			printf("Something else...\n");
+		}
+
 
 	}
+	fclose(input);
 }
 
 void print_time(tstamp_t * tstmp) {

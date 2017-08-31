@@ -13,7 +13,8 @@
 
 int main(int argc, char * argv[])
 {
-	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+	//loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+
 
 	//d string testing:
 	/*printf("Initializing dString...\n\n");
@@ -25,6 +26,11 @@ int main(int argc, char * argv[])
 	dStrBig = dString_new(6);
 
 	
+	printf("Appending 'c' to dString...\n");
+	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	dString_append(dStr, 'c');
+	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+
 	printf("Filling dString with \"test\"...\n");
 	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
 	dString_fill(dStr, "test");

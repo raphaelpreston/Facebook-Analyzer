@@ -14,14 +14,14 @@ dString * dString_new(size_t size) {
 	char * buffer;
 	buffer = (char *)malloc(sizeof(char) * size);
 	if (buffer == NULL) {
-		perror("Error mallocing string.");
+		perror("Error mallocing dstring.");
 		return;
 	}
 	buffer[0] = '\0';
 
 	//set struct atributes
 	dStr->buffer = buffer;
-	dStr->idx = 0;
+	dStr->idx = -1;
 	dStr->size = size;
 
 	return dStr;
