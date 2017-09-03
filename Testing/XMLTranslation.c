@@ -262,7 +262,14 @@ int loadXML(char * fileName) {
 				else if (reading == '}') {
 					dString_append(tstamp, c);
 				}
-				else if (reading == '<') {
+				else if (reading == '<') {	//content
+					if (c == ' ') {	//end of a word
+						printf("\"%s\"", word->buffer);
+						dString_clear(word);
+					}
+					else {	//reading in a word
+						//dString_append(word, c);
+					}
 					dString_append(content, c);
 				}
 			}

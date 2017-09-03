@@ -13,94 +13,94 @@
 
 int main(int argc, char * argv[])
 {
-	//loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
 
+	 
+	///d string testing:
+	//printf("Initializing dString...\n\n");
+	//dString * dStr;
+	//dStr = dString_new(5);
+	//dString * dStrSmall;
+	//dStrSmall = dString_new(4);
+	//dString * dStrBig;
+	//dStrBig = dString_new(6);
 
-	//d string testing:
-	printf("Initializing dString...\n\n");
-	dString * dStr;
-	dStr = dString_new(5);
-	dString * dStrSmall;
-	dStrSmall = dString_new(4);
-	dString * dStrBig;
-	dStrBig = dString_new(6);
+	//
+	//printf("Appending 'c' to dString...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_append(dStr, 'c');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	
-	printf("Appending 'c' to dString...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_append(dStr, 'c');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Clearing dString...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_clear(dStr);
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	printf("Clearing dString...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_clear(dStr);
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Appending 'c' to dString...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_append(dStr, 'c');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	printf("Appending 'c' to dString...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_append(dStr, 'c');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Filling dString with \"test\"...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_fill(dStr, "test");
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	printf("Filling dString with \"test\"...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_fill(dStr, "test");
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Filling dStringSmall with \"test\"...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
+	//dString_fill(dStrSmall, "test");
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
+	//
+	//printf("Filling dStringBig with \"test\"...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//dString_fill(dStrBig, "test");
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//
+	//printf("Minimizing dStringBig...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//dString_minimize(dStrBig);
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//
+	//printf("Changing dString[2] to '*'...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_changeChar(dStr, 2, '*');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	printf("Filling dStringSmall with \"test\"...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
-	dString_fill(dStrSmall, "test");
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrSmall->buffer, dStrSmall->size, dStrSmall->idx);
-	
-	printf("Filling dStringBig with \"test\"...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_fill(dStrBig, "test");
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	
-	printf("Minimizing dStringBig...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_minimize(dStrBig);
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	
-	printf("Changing dString[2] to '*'...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_changeChar(dStr, 2, '*');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Changing dString[-1] to '*'...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_changeChar(dStr, -1, '*');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	printf("Changing dString[-1] to '*'...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_changeChar(dStr, -1, '*');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Changing dString[4] to '*'...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
+	//dString_changeChar(dStr, 4, '*');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
 
-	printf("Changing dString[4] to '*'...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStr->buffer, dStr->size, dStr->idx);
-	dString_changeChar(dStr, 4, '*');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStr->buffer, dStr->size, dStr->idx);
+	//printf("Changing dStringBig[4] to '*'...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//dString_changeChar(dStrBig, 4, '*');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
 
-	printf("Changing dStringBig[4] to '*'...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_changeChar(dStrBig, 4, '*');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//printf("Changing dStringBig[5] to '*'...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//dString_changeChar(dStrBig, 5, '*');
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
 
-	printf("Changing dStringBig[5] to '*'...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_changeChar(dStrBig, 5, '*');
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//printf("Clearing dStringBig...\n");
+	//printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	//dString_clear(dStrBig);
+	//printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
 
-	printf("Clearing dStringBig...\n");
-	printf("Before: \"%s\" | Size: %i | Idx: %i\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
-	dString_clear(dStrBig);
-	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);
+	///*for (int i = 0; i < 10000; i++) {
+	//printf("%i: Appending \"&\" to dStringBig\n", i);
+	//dString_append(dStrBig, '&');
+	//printf("After: Size: %i | Idx: %i\n\n", dStrBig->size, dStrBig->idx);
+	//}*/
 
-	/*for (int i = 0; i < 10000; i++) {
-	printf("%i: Appending \"&\" to dStringBig\n", i);
-	dString_append(dStrBig, '&');
-	printf("After: Size: %i | Idx: %i\n\n", dStrBig->size, dStrBig->idx);
-	}*/
+	//printf("Deleting dString...\n\n");
+	//dString_delete(dStr);
 
-	printf("Deleting dString...\n\n");
-	dString_delete(dStr);
-
-	printf("Everything completed.\n");
+	//printf("Everything completed.\n");
 
 
 	////hash testing
