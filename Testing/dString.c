@@ -2,6 +2,8 @@
 #include <string.h>
 #include "dString.h"
 
+//note: whenever comparing idx and size, make sure to cast size to an int, because it's a size_t.
+
 dString * dString_new(size_t size) {
 	//declare struct
 	dString * dStr;
@@ -64,7 +66,7 @@ void dString_changeChar(dString * dStr, size_t idx, char c) {
 		else perror("Error: can only change previously set characters in the string.");
 		return;
 	}
-	if (idx > dStr->size) {
+	if (idx > (int)(dStr->size)) {
 		perror("Error: index out of range.");
 		return;
 	}
@@ -76,7 +78,8 @@ void dString_changeChar(dString * dStr, size_t idx, char c) {
 
 void dString_append(dString * dStr, char c) {
 	//determine if a size increase is necessary
-	if (dStr->idx >= dStr->size - 2) {	//no space
+	if (dStr->idx >= (int)(dStr->size - 2)) {	//no space
+		printf("There was no space because %i >= %i.\n", dStr->idx, dStr->size - 2);
 		//make a new buffer with 2x as much space
 		char * buffer;
 		buffer = malloc(sizeof(char) * dStr->size * 2);

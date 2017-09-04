@@ -5,7 +5,7 @@
 typedef struct dString {
 	char * buffer;
 	size_t size;	//max size of string
-	size_t idx;		//last filled index
+	int idx;		//last filled index
 } dString;
 
 //initialize the dynamic string at the given size
@@ -18,7 +18,7 @@ void dString_delete(dString *);
 void dString_fill(dString *, char *);
 
 //change an existing char at a given index in the string
-void dString_changeChar(dString *, size_t, char);
+void dString_changeChar(dString *, int idx, char);
 
 //append a char to the end of a string
 void dString_append(dString *, char);

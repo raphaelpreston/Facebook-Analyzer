@@ -244,8 +244,12 @@ int loadXML(char * fileName) {
 				reading = 'x';
 			}
 			else if (c == '<') {
-				printf("Content is %s...\n", content->buffer);
-				dString_clear(content);
+				// printf("Content is %s...\n", content->buffer);
+				//dString_clear(content);
+				printf("Read in word: \"%s\"\n", word->buffer);
+				// dString_clear(word);
+				// free(word);
+				word = dString_new(DSTRING_LENGTH);
 				reading = 'x';
 			}
 			/* read the character in appropriately to the message buffer */
@@ -264,13 +268,15 @@ int loadXML(char * fileName) {
 				}
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
-						printf("\"%s\"", word->buffer);
-						dString_clear(word);
+						printf("Read in word: \"%s\"\n", word->buffer);
+						// dString_clear(word);
+						// free(word);
+						word = dString_new(DSTRING_LENGTH);
 					}
 					else {	//reading in a word
-						//dString_append(word, c);
+						dString_append(word, c);
 					}
-					dString_append(content, c);
+					// dString_append(content, c);
 				}
 			}
 
