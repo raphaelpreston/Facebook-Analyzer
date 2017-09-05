@@ -246,7 +246,9 @@ int loadXML(char * fileName) {
 			else if (c == '<') {
 				printf("Content is %s...\n", content->buffer);
 				dString_clear(content);
-				
+				//WORKING HERE: GONNA HAVE TO MAKE AN ARRAY OF THE DIFFERENT WORDS THAT HAVE TO BE ADDED, THEN ADD THOSE WHEN THE MESSAGE IS FULLY CONSTRUCTED
+				// word_hash_add_word(w_hash, word->buffer, message);
+				printf("Read in word: \"%s\"\n", word->buffer);
 				dString_clear(word);
 				reading = 'x';
 			}
@@ -266,8 +268,8 @@ int loadXML(char * fileName) {
 				}
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
+						word_hash_add_word(w_hash, word->buffer, message);
 						printf("Read in word: \"%s\"\n", word->buffer);
-						
 						dString_clear(word);
 					}
 					else {	//reading in a word
