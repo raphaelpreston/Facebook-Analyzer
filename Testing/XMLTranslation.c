@@ -212,6 +212,16 @@ int loadXML(char * fileName) {
 	dString * tstamp = dString_new(DSTRING_LENGTH);
 	dString * content = dString_new(DSTRING_LENGTH);
 
+	dString * wday;	//0
+	dString * month;//1
+	dString * mday; //2
+	dString * year; //3
+	dString * hour; //4
+	dString * min;	//5
+	dString * ampm; //6
+
+	int treading = 0;		//keep track of what time object is being read in
+
 
 	dString * word = dString_new(DSTRING_LENGTH);
 
@@ -240,7 +250,7 @@ int loadXML(char * fileName) {
 			}
 			else if (c == '}') {
 				printf("Tstamp is %s...\n", tstamp->buffer);
-				//message_set_tstamp(message, );
+				message_set_tstamp(message, 4, 12, 0, 3, 3, 3, 2001);
 				//printf("Assigned tstamp to message.\n");
 
 				dString_clear(tstamp);
@@ -250,6 +260,7 @@ int loadXML(char * fileName) {
 				word_hash_add_word(w_hash, word->buffer, message);
 				printf("Read in word: \"%s\"\n", word->buffer);
 				dString_clear(word);
+				word = dString_new(DSTRING_LENGTH);
 				
 				printf("Content is %s...\n", content->buffer);
 				dString_clear(content);
@@ -267,6 +278,8 @@ int loadXML(char * fileName) {
 					dString_append(speaker, c);
 				}
 				else if (reading == '}') {
+
+
 					dString_append(tstamp, c);
 				}
 				else if (reading == '<') {	//content
@@ -274,6 +287,7 @@ int loadXML(char * fileName) {
 						word_hash_add_word(w_hash, word->buffer, message);
 						printf("Read in word: \"%s\"\n", word->buffer);
 						dString_clear(word);
+						// word = dString_new(DSTRING_LENGTH);
 					}
 					else {	//reading in a word
 						dString_append(word, c);
@@ -303,6 +317,8 @@ int loadXML(char * fileName) {
 
 	}
 	fclose(input);
+
+	word_hash_print(w_hash);
 }
 
 void print_time(tstamp_t * tstmp) {

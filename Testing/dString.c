@@ -127,7 +127,7 @@ void dString_minimize(dString * dStr) {
 }
 
 void dString_clear(dString * dStr) {
-	if (strlen(dStr) == 0)return;
+	if (strlen(dStr->buffer) == 0)return;
 	/* re-allocate memory */
 	free(dStr->buffer);
 	dStr->buffer = (char *)malloc(sizeof(char) * dStr->size);
