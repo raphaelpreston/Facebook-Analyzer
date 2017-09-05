@@ -262,6 +262,8 @@ int loadXML(char * fileName) {
 				dString_clear(word);
 				word = dString_new(DSTRING_LENGTH);
 				
+				dString_fill(message->content, content->buffer);
+				printf("Read in content.\n");
 				printf("Content is %s...\n", content->buffer);
 				dString_clear(content);
 				reading = 'x';
@@ -317,7 +319,7 @@ int loadXML(char * fileName) {
 
 	}
 	fclose(input);
-
+	printf("\n");
 	word_hash_print(w_hash);
 }
 
@@ -584,12 +586,14 @@ void ptr_hash_delete(ptr_hash * ptrhash) {
 void word_hash_print(word_hash * hash) {
 	word_list * list;
 	word_list * tmp;
-	message * m;
+	
 	printf("Hash:\n");
 	HASH_ITER(hh, hash->head, list, tmp) {
 		printf("%s -> ", list->word);
+		message * m;
 		LL_FOREACH(list->head, m) {
 			print_time(m->tstamp);
+			printf("(\"%s\")", m->content->buffer);
 			printf(", ");
 		}
 		printf("\n");
