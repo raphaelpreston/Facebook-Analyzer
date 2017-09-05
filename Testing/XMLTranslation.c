@@ -204,7 +204,6 @@ int loadXML(char * fileName) {
 	 
 	/* variables for keeping track of data */
 	message * message;
-	word_list * w_list;
 	
 	dString * name = dString_new(DSTRING_LENGTH);
 	dString * thread = dString_new(DSTRING_LENGTH);
@@ -245,11 +244,9 @@ int loadXML(char * fileName) {
 			}
 			else if (c == '<') {
 				// printf("Content is %s...\n", content->buffer);
-				//dString_clear(content);
-				printf("Read in word: \"%s\"\n", word->buffer);
-				// dString_clear(word);
-				// free(word);
-				word = dString_new(DSTRING_LENGTH);
+				// dString_clear(content);
+				
+				dString_clear(word);
 				reading = 'x';
 			}
 			/* read the character in appropriately to the message buffer */
@@ -269,9 +266,7 @@ int loadXML(char * fileName) {
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
 						printf("Read in word: \"%s\"\n", word->buffer);
-						// dString_clear(word);
-						// free(word);
-						word = dString_new(DSTRING_LENGTH);
+						dString_clear(word);
 					}
 					else {	//reading in a word
 						dString_append(word, c);
@@ -460,4 +455,34 @@ void word_hash_delete(word_hash * hash) {
 		free(current);
 	}
 	free(tmp);
+}
+
+int word_hash_add_word(word_hash * hash, char * word, message * message) {
+	/* check if the word is already in the hash */
+	word_list * search;
+	search = NULL;
+	word_list * found = word_hash_find_list(hash, word, search);
+	free(search);
+	if (found) {
+		/* add the message to the word_list */
+		word_list_add_node(found, message);
+
+
+		return 1;
+	}
+
+	else {
+		/* make a new wordlist */
+		word_list * new_list = word_list_new(word);
+
+		/* add the message to it */
+		word_list_add_node(new_list, message);
+
+		/* add the list to the hash */
+		word_hash_add_list(hash, new_list);
+
+
+		return 0;
+	}
+	return -1;
 }

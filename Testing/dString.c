@@ -3,6 +3,7 @@
 #include "dString.h"
 
 //note: whenever comparing idx and size, make sure to cast size to an int, because it's a size_t.
+//note: for some reason, when appending a ton of times, when running in visual studio, the size will double until the size reaches 48 and then stay there... running in cmd works fine.
 
 dString * dString_new(size_t size) {
 	//declare struct
@@ -36,11 +37,8 @@ void dString_delete(dString * dStr) {
 }
 
 void dString_fill(dString * dStr, char * string) {
-	//error checking
-	if (dStr->size < strlen(string) + 1) {
-		perror("Error: size doesn't accomodate string.");
-		return;
-	}
+	//check if theres room or not
+	if (dStr->size < strlen(string) + 1) dStr->size = strlen(string) + 1;
 
 	//make new buffer
 	char * buffer;
@@ -79,7 +77,6 @@ void dString_changeChar(dString * dStr, size_t idx, char c) {
 void dString_append(dString * dStr, char c) {
 	//determine if a size increase is necessary
 	if (dStr->idx >= (int)(dStr->size - 2)) {	//no space
-		printf("There was no space because %i >= %i.\n", dStr->idx, dStr->size - 2);
 		//make a new buffer with 2x as much space
 		char * buffer;
 		buffer = malloc(sizeof(char) * dStr->size * 2);

@@ -6,9 +6,9 @@
 #include "dString.h"
 #include <time.h>
 
-#define N 10000
-#define A 10	//< B
-#define B 50	//> A
+#define N 100
+#define A 1	//< B
+#define B 5	//> A
 #define RR(min,max) (rand() % (max + 1 - min) + min)
 
 int main(int argc, char * argv[])
@@ -17,13 +17,13 @@ int main(int argc, char * argv[])
 
 	 
 	///d string testing:
-	printf("Initializing dString...\n\n");
+	/*printf("Initializing dString...\n\n");
 	dString * dStr;
 	dStr = dString_new(5);
 	dString * dStrSmall;
 	dStrSmall = dString_new(4);
 	dString * dStrBig;
-	dStrBig = dString_new(6);
+	dStrBig = dString_new(6);*/
 
 	
 	/*printf("Appending 'c' to dString...\n");
@@ -91,7 +91,7 @@ int main(int argc, char * argv[])
 	dString_clear(dStrBig);
 	printf("After: \"%s\" | Size: %i | Idx: %i\n\n", dStrBig->buffer, dStrBig->size, dStrBig->idx);*/
 
-	for (int i = 0; i < 100000; i++) {
+	/*for (int i = 0; i < 100000; i++) {
 	printf("%i: Appending \"&\" to dStringBig\n", i);
 	dString_append(dStrBig, '&');
 	printf("After: Size: %i | Idx: %i\n\n", dStrBig->size, dStrBig->idx);
@@ -103,11 +103,52 @@ int main(int argc, char * argv[])
 	printf("Deleting dString...\n\n");
 	dString_delete(dStr);
 
-	printf("Everything completed.\n");
+	printf("Everything completed.\n");*/
 
 
 	////hash testing
-	//word_hash * hash = word_hash_init();
+	word_hash * hash = word_hash_init();
+	message * m = message_new();
+	dString * dStr = dString_new(5);
+	dString_fill(dStr, "This is a set of a bunch of different words.  This is the fourteenth word so now we're done.  Now.");
+	m->content = dStr;
+	message_set_tstamp(m, 5, 54, 0, 4, 4, 4, 2005);
+
+	int k;
+	char * words[20] = { "This", "is", "a", "set", "of", "a", "bunch", "of", "different", "words.", "This", "is", "the", "fourteenth", "word", "so", "now", "we're", "done.", "Now."};
+	for (int i = 0; i<20; i++) {
+	k = word_hash_add_word(hash, words[i], m);
+	printf("Added \"%s\".%s\n", words[i], k == 0 ? "  A new wordlist had to be added." : "");
+	}*/
+
+	word_hash_delete(hash);
+	printf("Hash successfully deleted.\n");
+
+
+
+	/*char * word = "word";
+
+	word_list * new_list = word_list_new(word);
+
+	word_list_add_node(new_list, m);
+	word_hash_add_list(hash, new_list);
+
+	word_list * search;
+	search = NULL;
+	word_list * found = word_hash_find_list(hash, word, search);
+	free(search);
+	if (found) {
+		word_list_add_node(found, m);
+	}
+*/
+	
+
+
+
+
+
+
+	
 	//word_list * search;
 	///* make an array of N lists */
 	//word_list * lists[N];
@@ -160,8 +201,8 @@ int main(int argc, char * argv[])
 	//	else printf(" Word list added failed.\n");
 	//}
 
-	//word_hash_delete(hash);
-	//printf("Hash successfully deleted.\n");
+	// word_hash_delete(hash);
+	// printf("Hash successfully deleted.\n");
 	//////////////////
 
 	/*word_list * list1 = word_list_new("list1");

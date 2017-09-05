@@ -29,6 +29,7 @@ typedef struct word_list {
 	UT_hash_handle hh;
 }word_list;
 
+/* Struct that keeps track of word -> message */
 typedef struct word_hash {
 	word_list * head;
 }word_hash;
@@ -97,3 +98,6 @@ void word_list_delete(word_list *);
 /*Deletes a word hash.  Note: Doesn't actually free the hash.  Must do that after. 
 */
 void word_hash_delete(word_hash *);
+
+/* Adds a word to a word_hash, given a message.  Returns 1 if the word_list existed and was modified, 0 if it was a new word, and -1 if it failed.  */
+int word_hash_add_word(word_hash * hash, char * word, message * message);

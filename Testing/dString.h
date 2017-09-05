@@ -14,7 +14,7 @@ dString * dString_new(size_t);
 //free everything
 void dString_delete(dString *);
 
-//fill the dString with a string
+//fill the dString with a string (replaces the old buffer with a completely new one)
 void dString_fill(dString *, char *);
 
 //change an existing char at a given index in the string
