@@ -13,7 +13,7 @@
 
 int main(int argc, char * argv[])
 {
-	// loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
 
 	 
 	///d string testing:
@@ -107,7 +107,7 @@ int main(int argc, char * argv[])
 
 
 	////hash testing
-	word_hash * hash = word_hash_init();
+	/*word_hash * hash = word_hash_init();
 	message * m = message_new();
 	dString * dStr = dString_new(5);
 	dString_fill(dStr, "This is a set of a bunch of different words.  This is the fourteenth word so now we're done.  Now.");
@@ -122,8 +122,11 @@ int main(int argc, char * argv[])
 	k = word_hash_add_word(hash, words[i], m);
 	printf("Added \"%s\".%s\n", words[i], k == 0 ? "  A new wordlist had to be added." : "");
 	}
+
+	word_hash_print(hash);
+
 	word_hash_delete(hash);
-	printf("Word hash successfully deleted.\n");
+	printf("Word hash successfully deleted.\n");*/
 	
 
 

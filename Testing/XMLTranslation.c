@@ -244,8 +244,8 @@ int loadXML(char * fileName) {
 				reading = 'x';
 			}
 			else if (c == '<') {
-				// printf("Content is %s...\n", content->buffer);
-				// dString_clear(content);
+				printf("Content is %s...\n", content->buffer);
+				dString_clear(content);
 				
 				dString_clear(word);
 				reading = 'x';
@@ -267,12 +267,13 @@ int loadXML(char * fileName) {
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
 						printf("Read in word: \"%s\"\n", word->buffer);
+						
 						dString_clear(word);
 					}
 					else {	//reading in a word
 						dString_append(word, c);
 					}
-					// dString_append(content, c);
+					dString_append(content, c);
 				}
 			}
 
@@ -547,4 +548,23 @@ void ptr_hash_delete(ptr_hash * ptrhash) {
 	}
 	free(tmp);
 	return;
+}
+
+
+//printing functions
+
+void word_hash_print(word_hash * hash) {
+	word_list * list;
+	word_list * tmp;
+	message * m;
+	printf("Hash:\n");
+	HASH_ITER(hh, hash->head, list, tmp) {
+		printf("%s -> ", list->word);
+		LL_FOREACH(list->head, m) {
+			print_time(m->tstamp);
+			printf(", ");
+		}
+		printf("\n");
+	}
+
 }
