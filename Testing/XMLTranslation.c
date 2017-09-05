@@ -436,13 +436,13 @@ word_list * word_hash_find_list(word_hash * hash, char * word, word_list * searc
 	return search;
 }
 
-bool message_delete(word_hash * hash, message * m) {
-	if (!ptr_hash_exists_ptr(hash->ptrhash, m)) {	//not been deleted yet
-		/* free all the memory */
-		free(m->tstamp);
-		free(m->content);
+bool message_mark_deletion(word_hash * hash, message * m) {
+	if (!ptr_hash_exists_ptr(hash->ptrhash, m)) {	//not been added to deletion array yet
+		///* free all the memory */
+		//free(m->tstamp);
+		//free(m->content);
 
-		/* add the pointer to the list of deleted pointers */
+		/* add the pointer to the list of pointers to be deleted */
 		ptr_hash_add_ptr(hash->ptrhash, m);
 
 		return false;
@@ -453,31 +453,10 @@ bool message_delete(word_hash * hash, message * m) {
 void word_list_delete(word_hash * hash, word_list * list) {
 	bool b;
 	message *current, *tmp;
-	/* iterate through and delete everything */
-	//message * node = list->head;
-	//message * next;
-	//
-	//bool k = true;
-	//while (k) {
-	//	next = node->next;
-
-	//	b = message_delete(hash, node);
-	//	LL_DELETE(list->head, node);
-	//	if (!b) free(node);	//if this is the first time deleting the message, free it too.  Don't want to free it twice.
-	//	
-	//	if (next == NULL) {
-	//		k = false;	//end the loop
-	//	}
-	//	else {
-	//		node = next;	//progress
-	//	}
-	//}
 
 	LL_FOREACH_SAFE(list->head, current, tmp) {
-		message_delete(hash, current);
+		message_mark_deletion(hash, current);	//only adds to deletion array
 		LL_DELETE(list->head, current);
-		// if(!b) free(current);	//if this is the first time deleting the message, free it too.  Don't want to free it twice.
-		free(current);
 	}
 	free(list->word);
 	free(list->head);
@@ -493,7 +472,7 @@ void word_hash_delete(word_hash * hash) {
 		free(current);
 	}
 	free(tmp);
-	// ptr_hash_delete(hash->ptrhash);
+	ptr_hash_delete(hash->ptrhash);		//actually delete all the messages
 }
 
 int word_hash_add_word(word_hash * hash, char * word, message * message) {

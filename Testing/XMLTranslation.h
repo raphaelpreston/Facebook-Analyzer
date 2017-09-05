@@ -102,7 +102,7 @@ int fileToXML(char * input, char * output);
 
 /*Deletes a message node.  Note: Doesn't actually free the message node.  Must do that after.  A true return signals that the message had already been deleted.
 */
-bool message_delete(word_hash * hash, message * m);
+bool message_mark_deletion(word_hash * hash, message * m);
 
 /*Deletes a word list.  Note: Doesn't actually free the list.  Must do that after.
 */
