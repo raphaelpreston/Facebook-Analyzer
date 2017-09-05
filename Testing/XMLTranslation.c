@@ -224,7 +224,7 @@ int loadXML(char * fileName) {
 		if (reading == '[' || reading == ']' || reading == '{' || reading == '}' || reading == '<') {
 			/* stop reading if it's any of these and save to memory what it read */
 			if (c == '[') {
-				printf("Full name is %s...\n", name->buffer);
+				printf("Full name of user is %s...\n", name->buffer);
 				dString_clear(name);
 				reading = 'x';
 			}
@@ -240,16 +240,19 @@ int loadXML(char * fileName) {
 			}
 			else if (c == '}') {
 				printf("Tstamp is %s...\n", tstamp->buffer);
+				//message_set_tstamp(message, );
+				//printf("Assigned tstamp to message.\n");
+
 				dString_clear(tstamp);
 				reading = 'x';
 			}
 			else if (c == '<') {
-				printf("Content is %s...\n", content->buffer);
-				dString_clear(content);
-				//WORKING HERE: GONNA HAVE TO MAKE AN ARRAY OF THE DIFFERENT WORDS THAT HAVE TO BE ADDED, THEN ADD THOSE WHEN THE MESSAGE IS FULLY CONSTRUCTED
-				// word_hash_add_word(w_hash, word->buffer, message);
+				word_hash_add_word(w_hash, word->buffer, message);
 				printf("Read in word: \"%s\"\n", word->buffer);
 				dString_clear(word);
+				
+				printf("Content is %s...\n", content->buffer);
+				dString_clear(content);
 				reading = 'x';
 			}
 			/* read the character in appropriately to the message buffer */
@@ -283,6 +286,13 @@ int loadXML(char * fileName) {
 
 		/* not reading, but we hit an indicator */
 		else if (c == '[' || c == ']' || c == '{' || c == '}' || c == '<') {
+			if (c == '{') {	//indicator of new message
+				printf("Began to read new message.  Initilializing message object.\n");
+				message = message_new();
+			}
+
+
+			/* begin reading */
 			reading = c;
 
 		}
