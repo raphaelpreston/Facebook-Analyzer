@@ -8,6 +8,7 @@
 #define MAXSTATES 5
 #define ENUM "C:/Users/IAMFRANK/Documents/FB Testing/ENUMERATE"
 #define DSTRING_LENGTH 5
+
 int fileToXML(char * input, char * output)
 {
 	/* open necessary files */
@@ -415,6 +416,11 @@ word_hash * word_hash_init(){
 	/* Set the head to NULL */
 	hash->head = NULL;
 
+	/* create the pointer hash to keep track of deletions */
+	ptr_hash * phash;
+	phash = ptr_hash_new();
+	hash->ptrhash = phash;
+
 	return hash;
 
 }
@@ -430,16 +436,47 @@ word_list * word_hash_find_list(word_hash * hash, char * word, word_list * searc
 	return search;
 }
 
-void message_delete(message * m) {
-	free(m->tstamp);
-	free(m->content);
+bool message_delete(word_hash * hash, message * m) {
+	if (!ptr_hash_exists_ptr(hash->ptrhash, m)) {	//not been deleted yet
+		/* free all the memory */
+		free(m->tstamp);
+		free(m->content);
+
+		/* add the pointer to the list of deleted pointers */
+		ptr_hash_add_ptr(hash->ptrhash, m);
+
+		return false;
+	}
+	return true;	//a true return signals that it had already been deleted
 }
 
-void word_list_delete(word_list * list) {
+void word_list_delete(word_hash * hash, word_list * list) {
+	bool b;
 	message *current, *tmp;
+	/* iterate through and delete everything */
+	//message * node = list->head;
+	//message * next;
+	//
+	//bool k = true;
+	//while (k) {
+	//	next = node->next;
+
+	//	b = message_delete(hash, node);
+	//	LL_DELETE(list->head, node);
+	//	if (!b) free(node);	//if this is the first time deleting the message, free it too.  Don't want to free it twice.
+	//	
+	//	if (next == NULL) {
+	//		k = false;	//end the loop
+	//	}
+	//	else {
+	//		node = next;	//progress
+	//	}
+	//}
+
 	LL_FOREACH_SAFE(list->head, current, tmp) {
-		message_delete(current);
+		message_delete(hash, current);
 		LL_DELETE(list->head, current);
+		// if(!b) free(current);	//if this is the first time deleting the message, free it too.  Don't want to free it twice.
 		free(current);
 	}
 	free(list->word);
@@ -450,11 +487,13 @@ void word_list_delete(word_list * list) {
 void word_hash_delete(word_hash * hash) {
 	word_list *current, *tmp;
 	HASH_ITER(hh, hash->head, current, tmp) {
-		word_list_delete(current);
+		printf("Attempting to delete word_list with word \"%s\"\n", current->word);
+		word_list_delete(hash, current);
 		HASH_DEL(hash->head, current);
 		free(current);
 	}
 	free(tmp);
+	// ptr_hash_delete(hash->ptrhash);
 }
 
 int word_hash_add_word(word_hash * hash, char * word, message * message) {
@@ -485,4 +524,48 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 		return 0;
 	}
 	return -1;
+}
+
+ptr_hash * ptr_hash_new() {
+	/* declare the struct */
+	ptr_hash * hash;
+	hash = (ptr_hash *)malloc(sizeof(ptr_hash));
+
+	/* Set the head to NULL */
+	hash->head = NULL;
+
+	return hash;
+}
+
+void ptr_hash_add_ptr(ptr_hash * ptrhash, void * ptr) {
+	/* add a node to hold the pointer */
+	phash_t * e = (phash_t *)malloc(sizeof(phash_t));
+	if (!e) perror("Couldn't malloc for pointer.");
+	e->key = ptr;
+	
+	/* add the node to the hash */
+	HASH_ADD_PTR(ptrhash->head, key, e);
+}
+
+bool ptr_hash_exists_ptr(ptr_hash * ptrhash, void * ptr) {
+	phash_t * d;
+	HASH_FIND_PTR(ptrhash->head, &ptr, d);
+	if (d) {
+		return true;
+		//can't free d here for some reason 
+	}
+	else {
+		//can't free d here for some reason 
+		return false;
+	}
+}
+
+void ptr_hash_delete(ptr_hash * ptrhash) {
+	phash_t *current, *tmp;
+	HASH_ITER(hh, ptrhash->head, current, tmp) {
+		HASH_DEL(ptrhash->head, current);
+		free(current);
+	}
+	free(tmp);
+	return;
 }

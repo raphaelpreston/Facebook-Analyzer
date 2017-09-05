@@ -113,17 +113,18 @@ int main(int argc, char * argv[])
 	dString_fill(dStr, "This is a set of a bunch of different words.  This is the fourteenth word so now we're done.  Now.");
 	m->content = dStr;
 	message_set_tstamp(m, 5, 54, 0, 4, 4, 4, 2005);
+	
+	ptr_hash * ptrhash = ptr_hash_new();
 
 	int k;
 	char * words[20] = { "This", "is", "a", "set", "of", "a", "bunch", "of", "different", "words.", "This", "is", "the", "fourteenth", "word", "so", "now", "we're", "done.", "Now."};
 	for (int i = 0; i<20; i++) {
 	k = word_hash_add_word(hash, words[i], m);
 	printf("Added \"%s\".%s\n", words[i], k == 0 ? "  A new wordlist had to be added." : "");
-	}*/
-
+	}
 	word_hash_delete(hash);
-	printf("Hash successfully deleted.\n");
-
+	printf("Word hash successfully deleted.\n");
+	
 
 
 	/*char * word = "word";
