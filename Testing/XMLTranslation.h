@@ -125,3 +125,6 @@ bool ptr_hash_exists_ptr(ptr_hash * ptrhash, void * ptr);
 void ptr_hash_delete(ptr_hash * ptrhash);
 
 void word_hash_print(word_hash *);
+
+/* Determine if a character is punctuation or not.*/
+bool ispunc(char c);

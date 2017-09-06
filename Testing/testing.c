@@ -13,7 +13,56 @@
 
 int main(int argc, char * argv[])
 {
-	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+	// loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+
+
+	word_hash * hash = word_hash_init();
+
+	message * m1 = message_new();
+	message * m2 = message_new();
+	message * m3 = message_new();
+	message * m4 = message_new();
+	message * m5 = message_new();
+
+	dString * d1 = dString_new(5);
+	dString * d2 = dString_new(5);
+	dString * d3 = dString_new(5);
+	dString * d4 = dString_new(5);
+	dString * d5 = dString_new(5);
+
+	dString_fill(d1, "This is the first message.");
+	dString_fill(d2, "So that means this is the second message.");
+	dString_fill(d3, "Therefore, this must be the third message, of course.");
+	dString_fill(d4, "I guess that means this is the fourth message?");
+	dString_fill(d5, "This is the fifth and final message.");
+	
+	m1->content = d1;
+	m2->content = d2;
+	m3->content = d3;
+	m4->content = d4;
+	m5->content = d5;
+
+	message_set_tstamp(m1, 6, 50, 1, 1, 1, 1, 2001);
+	message_set_tstamp(m2, 6, 51, 1, 1, 1, 1, 2001);
+	message_set_tstamp(m3, 6, 52, 1, 1, 1, 1, 2001);
+	message_set_tstamp(m4, 6, 53, 1, 1, 1, 1, 2001);
+	message_set_tstamp(m5, 6, 54, 1, 1, 1, 1, 2001);
+
+	char * m1p[] = { "This", "is", "the", "first", "message." };
+	char * m2p[] = { "So", "that", "means", "this", "is", "the", "second", "message." };
+	char * m3p[] = { "Therefore,", "this", "must", "be", "the", "third", "message,", "of", "course." };
+	char * m4p[] = { "I", "guess", "that", "means", "this", "is", "the", "fourth", "message?" };
+	char * m5p[] = { "This", "is", "the", "fifth", "and", "final", "message." };
+
+	for (int i = 0; i < 5; i++) {
+		word_hash_add_word(hash, m1p[i], m1);
+	}
+	for (int i = 0; i < 8; i++) word_hash_add_word(hash, m2p[i], m2);
+	for (int i = 0; i < 9; i++) word_hash_add_word(hash, m3p[i], m3);
+	for (int i = 0; i < 9; i++) word_hash_add_word(hash, m4p[i], m4);
+	for (int i = 0; i < 7; i++) word_hash_add_word(hash, m5p[i], m5);
+	
+	word_hash_print(hash);
 
 	 
 	///d string testing:

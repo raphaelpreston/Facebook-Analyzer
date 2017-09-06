@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "utlist.h"
+#include <ctype.h>
 
 #define MAXSTATES 5
 #define ENUM "C:/Users/IAMFRANK/Documents/FB Testing/ENUMERATE"
@@ -251,20 +252,22 @@ int loadXML(char * fileName) {
 			else if (c == '}') {
 				printf("Tstamp is %s...\n", tstamp->buffer);
 				message_set_tstamp(message, 4, 12, 0, 3, 3, 3, 2001);
-				//printf("Assigned tstamp to message.\n");
+				printf("Assigned tstamp to message.\n");
 
 				dString_clear(tstamp);
+				printf("Cleared timestamp.\n");
 				reading = 'x';
 			}
 			else if (c == '<') {
 				word_hash_add_word(w_hash, word->buffer, message);
 				printf("Read in word: \"%s\"\n", word->buffer);
+				printf("Clearing word.\n");
 				dString_clear(word);
-				word = dString_new(DSTRING_LENGTH);
 				
 				dString_fill(message->content, content->buffer);
 				printf("Read in content.\n");
 				printf("Content is %s...\n", content->buffer);
+				printf("Cleared content.\n");
 				dString_clear(content);
 				reading = 'x';
 			}
@@ -280,16 +283,14 @@ int loadXML(char * fileName) {
 					dString_append(speaker, c);
 				}
 				else if (reading == '}') {
-
-
 					dString_append(tstamp, c);
 				}
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
 						word_hash_add_word(w_hash, word->buffer, message);
 						printf("Read in word: \"%s\"\n", word->buffer);
+						printf("Clearing word.\n");
 						dString_clear(word);
-						// word = dString_new(DSTRING_LENGTH);
 					}
 					else {	//reading in a word
 						dString_append(word, c);
@@ -303,10 +304,10 @@ int loadXML(char * fileName) {
 		/* not reading, but we hit an indicator */
 		else if (c == '[' || c == ']' || c == '{' || c == '}' || c == '<') {
 			if (c == '{') {	//indicator of new message
+				word_hash_print(w_hash);
 				printf("Began to read new message.  Initilializing message object.\n");
 				message = message_new();
 			}
-
 
 			/* begin reading */
 			reading = c;
@@ -506,17 +507,29 @@ void word_hash_delete(word_hash * hash) {
 	ptr_hash_delete(hash->ptrhash);		//actually delete all the messages
 }
 
+bool ispunc(char c) {
+	return (c == '!' || c == '@' || c == '#' || c == '$' || c == '%' || c == '^' || c == '&' || c == '*' || c == '(' || c == ')' || c == '_' || c == '-' || c == '=' || c == '+' || c == '[' || c == '{' || c == ']' || c == '}' || c == '\\' || c == '|' || c == ';' || c == ':' || c == '\'' || c == '\"' || c == ',' || c == '<' || c == '.' || c == '>' || c == '/' || c == '?' || c == '`' || c == '~');
+}
+
 int word_hash_add_word(word_hash * hash, char * word, message * message) {
+	/* convert the string to lowercase and remove all punctuation */
+	dString * lower = dString_new(strlen(word) + 1);
+	for (int i = 0; i < strlen(word); i++) {
+		if (!ispunc(word[i])) {	//valid character
+			dString_append(lower, tolower(word[i]));
+		}
+	}
+	//losing memory by not freeing word?
+	word = lower->buffer;
 	/* check if the word is already in the hash */
 	word_list * search;
 	search = NULL;
-	word_list * found = word_hash_find_list(hash, word, search);
+	word_list * found = word_hash_find_list(hash, word, search);		//WORKING HERE.  FOR SOME REASON IT'S NOT FINDING IT all the time????
 	free(search);
 	if (found) {
 		/* add the message to the word_list */
 		word_list_add_node(found, message);
-
-
+		// printf("\"%s\" was already in the hash. Added the message to the list.\n", word);
 		return 1;
 	}
 
@@ -529,7 +542,7 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 
 		/* add the list to the hash */
 		word_hash_add_list(hash, new_list);
-
+		// printf("Had to make a new wordlist for \"%s\".\n", word);
 
 		return 0;
 	}
@@ -589,10 +602,10 @@ void word_hash_print(word_hash * hash) {
 	
 	printf("Hash:\n");
 	HASH_ITER(hh, hash->head, list, tmp) {
-		printf("%s -> ", list->word);
+		printf("\"%s\" -> ", list->word);
 		message * m;
 		LL_FOREACH(list->head, m) {
-			print_time(m->tstamp);
+			//print_time(m->tstamp);
 			printf("(\"%s\")", m->content->buffer);
 			printf(", ");
 		}
