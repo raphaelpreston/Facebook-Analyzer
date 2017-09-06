@@ -13,18 +13,18 @@
 
 int main(int argc, char * argv[])
 {
-
-	// fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/messages.htm", "C:/Users/IAMFRANK/Documents/FB Testing/output_huge_2.txt");
-
+	printf("Converting from HTML to XML...");
+	fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/messages.htm", "C:/Users/IAMFRANK/Documents/FB Testing/output_huge_2.txt");
+	printf("complete\n");
 
 
 	word_hash * w_hash = word_hash_init();
-
+	printf("Loading hash...");
 	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_huge_2.txt", w_hash);
-
-	word_hash_print(w_hash);
+	printf("complete.\n");
+	printf("Deleting hash...");
 	word_hash_delete(w_hash);
-	printf("\n\n Hash deleted.\n");
+	printf("complete\n");
 
 
 	/*word_hash * hash = word_hash_init();

@@ -261,8 +261,7 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				reading = 'x';
 			}
 			else if (c == '}') {
-				printf("Attempting to set: \nHour: %s\nMin: %s\nAmpm: %s\nWday: %s\nMonth: %s\nMday: %s\nYear: %s\n\n", hour->buffer, min->buffer, ampm->buffer, wday->buffer, month->buffer, mday->buffer, year->buffer);
-				printf("Speaker for attempting: %s\n", message->speaker->buffer);
+				// printf("Attempting to set: \nHour: %s\nMin: %s\nAmpm: %s\nWday: %s\nMonth: %s\nMday: %s\nYear: %s\n\n", hour->buffer, min->buffer, ampm->buffer, wday->buffer, month->buffer, mday->buffer, year->buffer);
 				message_set_tstamp(message, atoi(hour->buffer), atoi(min->buffer), atoi(ampm->buffer), strcmp(wday->buffer, "Sunday") == 0 ? 0 : strcmp(wday->buffer, "Monday") == 0 ? 1 : strcmp(wday->buffer, "Tuesday") == 0 ? 2 : strcmp(wday->buffer, "Wednesday") == 0 ? 3 : strcmp(wday->buffer, "Thursday") == 0 ? 4 : strcmp(wday->buffer, "Friday") == 0 ? 5 : strcmp(wday->buffer, "Saturday") == 0 ? 6 : -1, strcmp(month->buffer, "January") == 0 ? 0 : strcmp(month->buffer, "February") == 0 ? 1 : strcmp(month->buffer, "March") == 0 ? 2 : strcmp(month->buffer, "April") == 0 ? 3 : strcmp(month->buffer, "May") == 0 ? 4 : strcmp(month->buffer, "June") == 0 ? 5 : strcmp(month->buffer, "July") == 0 ? 6 : strcmp(month->buffer, "August") == 0 ? 7 : strcmp(month->buffer, "September") == 0 ? 8 : strcmp(month->buffer, "October") == 0 ? 9 : strcmp(month->buffer, "November") == 0 ? 10 : strcmp(month->buffer, "December") == 0 ? 11 : -1, atoi(mday->buffer), atoi(year->buffer));
 				dString_clear(wday);
 				dString_clear(month);
