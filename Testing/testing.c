@@ -13,10 +13,12 @@
 
 int main(int argc, char * argv[])
 {
-	// loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt");
+	word_hash * w_hash = word_hash_init();
+	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt", w_hash);
+	word_hash_print(w_hash);
 
 
-	word_hash * hash = word_hash_init();
+	/*word_hash * hash = word_hash_init();
 
 	message * m1 = message_new();
 	message * m2 = message_new();
@@ -54,9 +56,7 @@ int main(int argc, char * argv[])
 	char * m4p[] = { "I", "guess", "that", "means", "this", "is", "the", "fourth", "message?" };
 	char * m5p[] = { "This", "is", "the", "fifth", "and", "final", "message." };
 
-	for (int i = 0; i < 5; i++) {
-		word_hash_add_word(hash, m1p[i], m1);
-	}
+	for (int i = 0; i < 5; i++) word_hash_add_word(hash, m1p[i], m1);
 	for (int i = 0; i < 8; i++) word_hash_add_word(hash, m2p[i], m2);
 	for (int i = 0; i < 9; i++) word_hash_add_word(hash, m3p[i], m3);
 	for (int i = 0; i < 9; i++) word_hash_add_word(hash, m4p[i], m4);
@@ -64,11 +64,9 @@ int main(int argc, char * argv[])
 	
 	word_hash_print(hash);
 
-	//HAVE TO FREE THE MESSAGE NODE AT SOME POINT
-
 
 	word_hash_delete(hash);
-	//printf("Hash deleted.\n");
+	printf("Hash deleted.\n");*/
 
 
 

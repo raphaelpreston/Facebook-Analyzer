@@ -187,7 +187,7 @@ int fileToXML(char * input, char * output)
 	fclose(outputP);
 }
 
-int loadXML(char * fileName) {
+int loadXML(char * fileName, word_hash * w_hash) {
 	//error checking for input file
 	FILE * input;
 	input = fopen(fileName, "r");
@@ -196,12 +196,7 @@ int loadXML(char * fileName) {
 		return 1;
 	}
 
-	/* create hashtables to keep track of words and speakers. */
-	word_hash * w_hash = word_hash_init();
-
 	/* create b+ tree for timestamps */
-
-	
 	
 	 
 	/* variables for keeping track of data */
@@ -320,8 +315,6 @@ int loadXML(char * fileName) {
 
 	}
 	fclose(input);
-	printf("\n");
-	word_hash_print(w_hash);
 }
 
 void print_time(tstamp_t * tstmp) {
@@ -514,7 +507,7 @@ void word_list_delete(word_hash * hash, word_list * list) {
 void word_hash_delete(word_hash * hash) {
 	word_list *current, *tmp;
 	HASH_ITER(hh, hash->head, current, tmp) {
-		printf("Attempting to delete word_list with word \"%s\"\n", current->word);
+		// printf("Attempting to delete word_list with word \"%s\"\n", current->word);
 		word_list_delete(hash, current);
 		HASH_DEL(hash->head, current);
 		free(current);
@@ -546,8 +539,7 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 	if (found) {
 		/* add the message to the word_list */
 		word_list_add_node(found, message);
-		printf("\"%s\" was already in the hash. Added the message to the list.\n", word);
-		word_hash_print(hash);
+		// printf("\"%s\" was already in the hash. Added the message to the list.\n", word);
 		return 1;
 	}
 
@@ -560,8 +552,7 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 
 		/* add the list to the hash */
 		word_hash_add_list(hash, new_list);
-		printf("Had to make a new wordlist for \"%s\".\n", word);
-		word_hash_print(hash);
+		// printf("Had to make a new wordlist for \"%s\".\n", word);
 
 		return 0;
 	}
