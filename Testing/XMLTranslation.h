@@ -29,8 +29,10 @@ typedef struct tstamp {
 }tstamp_t;
 
 typedef struct message {
+	dString * thread;	//later make this into it's own object
 	tstamp_t * tstamp;
 	dString * content;
+	dString * speaker;
 }message;
 
 /* actual object to store in linked lists */
