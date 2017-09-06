@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "XMLTranslation.h"
 #include "hashset.h"
 #include <stdbool.h>
@@ -208,15 +209,20 @@ int loadXML(char * fileName, word_hash * w_hash) {
 	dString * tstamp = dString_new(DSTRING_LENGTH);
 	dString * content = dString_new(DSTRING_LENGTH);
 
-	dString * wday;	//0
-	dString * month;//1
-	dString * mday; //2
-	dString * year; //3
-	dString * hour; //4
-	dString * min;	//5
-	dString * ampm; //6
+	dString * wday = dString_new(10);	//0
+	dString * month = dString_new(10);//1
+	dString * mday = dString_new(3); //2
+	dString * year = dString_new(5); //3
+	dString * hour = dString_new(3); //4
+	dString * min = dString_new(3);	//5
+	dString * ampm = dString_new(3); //6
 
-	int treading = 0;		//keep track of what time object is being read in
+	int month_s_count = 0;	//count the spaces to know when to advance when reading month
+	int mday_s_count = 0;	//same but for the mday
+	int hour_s_count = 0;
+	int min_c_count = 0;
+
+	int t_reading = 0;		//keep track of what time object is being read in
 
 
 	dString * word = dString_new(DSTRING_LENGTH);
@@ -245,12 +251,34 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				reading = 'x';
 			}
 			else if (c == '}') {
-				printf("Tstamp is %s...\n", tstamp->buffer);
-				message_set_tstamp(message, 4, 12, 0, 3, 3, 3, 2001);
-				printf("Assigned tstamp to message.\n");
+				//printf("Tstamp is %s...\n", tstamp->buffer);
+				printf("Tstamp is: \n");
+				printf(" Wday: \"%s\"\n", wday->buffer);
+				printf(" Month: \"%s\"\n", month->buffer);
+				printf(" Mday: \"%s\"\n", mday->buffer);
+				printf(" Year: \"%s\"\n", year->buffer);
+				printf(" Hour: \"%s\"\n", hour->buffer);
+				printf(" Min: \"%s\"\n", min->buffer);
+				printf(" Ampm: \"%s\"\n", ampm->buffer);
+				message_set_tstamp(message, atoi(hour->buffer), atoi(min->buffer), atoi(ampm->buffer), strcmp(wday->buffer, "Sunday") == 0 ? 0 : strcmp(wday->buffer, "Monday") == 0 ? 1 : strcmp(wday->buffer, "Tuesday") == 0 ? 2 : strcmp(wday->buffer, "Wednesday") == 0 ? 3 : strcmp(wday->buffer, "Thursday") == 0 ? 4 : strcmp(wday->buffer, "Friday") == 0 ? 5 : strcmp(wday->buffer, "Saturday") == 0 ? 6 : -1, strcmp(month->buffer, "January") == 0 ? 0 : strcmp(month->buffer, "February") == 0 ? 1 : strcmp(month->buffer, "March") == 0 ? 2 : strcmp(month->buffer, "April") == 0 ? 3 : strcmp(month->buffer, "May") == 0 ? 4 : strcmp(month->buffer, "June") == 0 ? 5 : strcmp(month->buffer, "July") == 0 ? 6 : strcmp(month->buffer, "August") == 0 ? 7 : strcmp(month->buffer, "September") == 0 ? 8 : strcmp(month->buffer, "October") == 0 ? 9 : strcmp(month->buffer, "November") == 0 ? 10 : strcmp(month->buffer, "December") == 0 ? 11 : -1, atoi(mday->buffer), atoi(year->buffer));
+				printf("Assigned tstamp to message: ");
+				print_time(message->tstamp);
+				printf("\n");
 
-				dString_clear(tstamp);
-				printf("Cleared timestamp.\n");
+				dString_clear(wday);
+				dString_clear(month);
+				dString_clear(mday);
+				dString_clear(year);
+				dString_clear(hour);
+				dString_clear(min);
+				dString_clear(ampm);
+				t_reading = 0;	//reset timestamp scanner and other counters
+				month_s_count = 0;
+				mday_s_count = 0;
+				hour_s_count = 0;
+				min_c_count = 0;
+
+				printf("Reset all timestamp trackers.\n");
 				reading = 'x';
 			}
 			else if (c == '<') {
@@ -278,7 +306,61 @@ int loadXML(char * fileName, word_hash * w_hash) {
 					dString_append(speaker, c);
 				}
 				else if (reading == '}') {
-					dString_append(tstamp, c);
+					/* determine what part of the timestamp we're reading */
+					// caution: "If it's stupid and works, it's not stupid."
+					if (t_reading == 0) {
+						if (c == ',') t_reading++;
+						else dString_append(wday, c);
+					}
+					else if (t_reading == 1) {
+						if (c == ' ') {
+							if (month_s_count == 1) {	//advance to next element
+								t_reading++;
+								month_s_count = 0;	//reset the count
+							}
+							else month_s_count++;
+						}
+						else dString_append(month, c);
+					}
+					else if (t_reading == 2) {
+						if (c == ',') t_reading++;
+						else dString_append(mday, c);
+					}
+					else if (t_reading == 3) {
+						if (c == ' ') {
+							if (month_s_count == 1) {	//advance to next element
+								t_reading++;
+							}
+							else month_s_count++;
+						}
+						else dString_append(year, c);
+					}
+					else if (t_reading == 4) {
+						if (hour_s_count != 1) {	//passing through " at "
+							if (c == ' ') {
+								hour_s_count++;
+							}
+						}
+						else {
+							if (c == ':') t_reading++;
+							else dString_append(hour, c);
+						}
+					}
+					else if (t_reading == 5) {
+						printf("Analyzing %c for t_reading == 5, count is at %i\n", c, min_c_count);
+						if (min_c_count <= 1) {	//only count two characters
+							dString_append(min, c);
+							if (min_c_count == 1) t_reading++;
+							min_c_count++;
+						}
+					}
+					else if (t_reading == 6) {
+						printf("analyzing %c for t_reading ==6 \n", c);
+						if (c == ' ') t_reading++;
+						else dString_append(ampm, c);
+						//else scanning through timezone, which isn't scanned in
+					}
+					// else we are scanning through timezone
 				}
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
@@ -612,12 +694,12 @@ void word_hash_print(word_hash * hash) {
 	
 	printf("Hash:\n");
 	HASH_ITER(hh, hash->head, list, tmp) {
-		printf("\"%s\" -> ", list->word);
+		printf(" \"%s\" ->\n", list->word);
 		m_node * mn;
 		LL_FOREACH(list->head, mn) {
-			//print_time(m->tstamp);
-			printf("(\"%s\")", mn->message->content->buffer);
-			printf(", ");
+			printf("   \"%s\" (", mn->message->content->buffer);
+			print_time(mn->message->tstamp);
+			printf(")%s", mn->next != NULL ? "\n" : "");
 		}
 		printf("\n");
 	}

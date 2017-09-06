@@ -16,6 +16,7 @@ int main(int argc, char * argv[])
 	word_hash * w_hash = word_hash_init();
 	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt", w_hash);
 	word_hash_print(w_hash);
+	printf("\n\n Hash deleted.\n");
 
 
 	/*word_hash * hash = word_hash_init();
