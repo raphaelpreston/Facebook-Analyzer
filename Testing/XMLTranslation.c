@@ -524,13 +524,12 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 	/* check if the word is already in the hash */
 	word_list * search;
 	search = NULL;
-	word_list * found = word_hash_find_list(hash, word, search);
+	word_list * found = word_hash_find_list(hash, word, search);		//WORKING HERE.  FOR SOME REASON IT'S NOT FINDING IT all the time????
 	free(search);
 	if (found) {
 		/* add the message to the word_list */
 		word_list_add_node(found, message);
-		printf("\"%s\" was already in the hash. Added the message to the list \"%s\".\n", word, found->word);
-		word_hash_print(hash);
+		// printf("\"%s\" was already in the hash. Added the message to the list.\n", word);
 		return 1;
 	}
 
@@ -543,8 +542,7 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 
 		/* add the list to the hash */
 		word_hash_add_list(hash, new_list);
-		printf("Had to make a new wordlist for \"%s\".  The wordlist's word is \"%s\"\n", word, new_list->word);
-		word_hash_print(hash);
+		// printf("Had to make a new wordlist for \"%s\".\n", word);
 
 		return 0;
 	}
