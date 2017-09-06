@@ -517,7 +517,7 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 	for (int i = 0; i < strlen(word); i++) {
 		if (!ispunc(word[i])) {	//valid character
 			dString_append(lower, tolower(word[i]));
-		}
+		} 
 	}
 	//losing memory by not freeing word?
 	word = lower->buffer;
