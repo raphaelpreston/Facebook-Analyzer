@@ -236,31 +236,24 @@ int loadXML(char * fileName, word_hash * w_hash) {
 		if (reading == '[' || reading == ']' || reading == '{' || reading == '}' || reading == '<') {
 			/* stop reading if it's any of these and save to memory what it read */
 			if (c == '[') {
-				printf("Full name of user is %s...\n", name->buffer);
 				dString_clear(name);
 				reading = 'x';
 			}
 			else if (c == ']') {
-				printf("Thread is %s...\n", thread->buffer);
-				
 				//don't clear thread here
 				reading = 'x';
 			}
 			else if (c == '{') {
-				printf("Speaker is %s...\n", speaker->buffer);
+				/* assign speaker to the message then clear it */
 				dString * tmp = dString_new(strlen(speaker->buffer) + 1);
 				dString_fill(tmp, speaker->buffer);
 				message->speaker = tmp;
-				printf("Assigned speaker : %s.\n", message->speaker->buffer);
 
 				dString_clear(speaker);
 				reading = 'x';
 			}
 			else if (c == '}') {
 				message_set_tstamp(message, atoi(hour->buffer), atoi(min->buffer), atoi(ampm->buffer), strcmp(wday->buffer, "Sunday") == 0 ? 0 : strcmp(wday->buffer, "Monday") == 0 ? 1 : strcmp(wday->buffer, "Tuesday") == 0 ? 2 : strcmp(wday->buffer, "Wednesday") == 0 ? 3 : strcmp(wday->buffer, "Thursday") == 0 ? 4 : strcmp(wday->buffer, "Friday") == 0 ? 5 : strcmp(wday->buffer, "Saturday") == 0 ? 6 : -1, strcmp(month->buffer, "January") == 0 ? 0 : strcmp(month->buffer, "February") == 0 ? 1 : strcmp(month->buffer, "March") == 0 ? 2 : strcmp(month->buffer, "April") == 0 ? 3 : strcmp(month->buffer, "May") == 0 ? 4 : strcmp(month->buffer, "June") == 0 ? 5 : strcmp(month->buffer, "July") == 0 ? 6 : strcmp(month->buffer, "August") == 0 ? 7 : strcmp(month->buffer, "September") == 0 ? 8 : strcmp(month->buffer, "October") == 0 ? 9 : strcmp(month->buffer, "November") == 0 ? 10 : strcmp(month->buffer, "December") == 0 ? 11 : -1, atoi(mday->buffer), atoi(year->buffer));
-				printf("Assigned tstamp to message: ");
-				print_time(message->tstamp);
-				printf("\n");
 
 				dString_clear(wday);
 				dString_clear(month);
@@ -275,28 +268,21 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				hour_s_count = 0;
 				min_c_count = 0;
 
-				printf("Reset all timestamp trackers.\n");
 				reading = 'x';
 			}
 			else if (c == '<') {
 				/* add the last word to the hash */
 				word_hash_add_word(w_hash, word->buffer, message);
-				printf("Read in word: \"%s\"\n", word->buffer);
-				printf("Clearing word.\n");
 				dString_clear(word);
 
 				/* read in the content */
 				dString_fill(message->content, content->buffer);
-				printf("Read in content.\n");
-				printf("Content is %s...\n", content->buffer);
-				printf("Cleared content.\n");
 				dString_clear(content);
 
 				/* assign the thread to the message */
 				dString * tmp = dString_new(strlen(thread->buffer) + 1);
 				dString_fill(tmp, thread->buffer);
 				message->thread = tmp;
-				printf("Assigned thread to %s\n", message->thread->buffer);
 
 				reading = 'x';
 			}
@@ -369,8 +355,6 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				else if (reading == '<') {	//content
 					if (c == ' ') {	//end of a word
 						word_hash_add_word(w_hash, word->buffer, message);
-						printf("Read in word: \"%s\"\n", word->buffer);
-						printf("Clearing word.\n");
 						dString_clear(word);
 					}
 					else {	//reading in a word
@@ -385,11 +369,9 @@ int loadXML(char * fileName, word_hash * w_hash) {
 		/* not reading, but we hit an indicator */
 		else if (c == '[' || c == ']' || c == '{' || c == '}' || c == '<') {
 			if (c == '{') {	//indicator of new message
-				printf("Began to read new message.  Initilializing message object.\n");
 				message = message_new();
 			}
 			else if (c == ']') {
-				printf("Clearing thread.\n");
 				dString_clear(thread);
 			}
 
@@ -397,11 +379,6 @@ int loadXML(char * fileName, word_hash * w_hash) {
 			reading = c;
 
 		}
-		else {
-			//printf("Something else...\n");
-		}
-
-
 	}
 	fclose(input);
 }
