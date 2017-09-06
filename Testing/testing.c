@@ -64,7 +64,15 @@ int main(int argc, char * argv[])
 	
 	word_hash_print(hash);
 
-	 
+	//HAVE TO FREE THE MESSAGE NODE AT SOME POINT
+
+
+	//word_hash_delete(hash);
+	//printf("Hash deleted.\n");
+
+
+
+
 	///d string testing:
 	/*printf("Initializing dString...\n\n");
 	dString * dStr;

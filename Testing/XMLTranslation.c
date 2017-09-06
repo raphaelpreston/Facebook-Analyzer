@@ -486,7 +486,7 @@ word_list * word_hash_find_list(word_hash * hash, char * word, word_list * searc
 bool message_mark_deletion(word_hash * hash, message * m) {
 	if (!ptr_hash_exists_ptr(hash->ptrhash, m)) {	//not been added to deletion array yet
 		///* free all the memory */
-		//free(m->tstamp);
+		//free(m->tstamp);			//only marking for deletion so don't do this
 		//free(m->content);
 
 		/* add the pointer to the list of pointers to be deleted */
@@ -499,10 +499,10 @@ bool message_mark_deletion(word_hash * hash, message * m) {
 
 void word_list_delete(word_hash * hash, word_list * list) {
 	bool b;
-	message *current, *tmp;
+	m_node *current, *tmp;
 
 	LL_FOREACH_SAFE(list->head, current, tmp) {
-		message_mark_deletion(hash, current);	//only adds to deletion array
+		message_mark_deletion(hash, current->message);	//only adds to deletion array
 		LL_DELETE(list->head, current);
 	}
 	free(list->word);
@@ -536,15 +536,17 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 	}
 	//losing memory by not freeing word?
 	word = lower->buffer;
+
 	/* check if the word is already in the hash */
 	word_list * search;
 	search = NULL;
-	word_list * found = word_hash_find_list(hash, word, search);		//WORKING HERE.  FOR SOME REASON IT'S NOT FINDING IT all the time????
+	word_list * found = word_hash_find_list(hash, word, search);
 	free(search);
 	if (found) {
 		/* add the message to the word_list */
 		word_list_add_node(found, message);
-		// printf("\"%s\" was already in the hash. Added the message to the list.\n", word);
+		printf("\"%s\" was already in the hash. Added the message to the list.\n", word);
+		word_hash_print(hash);
 		return 1;
 	}
 
@@ -557,7 +559,8 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 
 		/* add the list to the hash */
 		word_hash_add_list(hash, new_list);
-		// printf("Had to make a new wordlist for \"%s\".\n", word);
+		printf("Had to make a new wordlist for \"%s\".\n", word);
+		word_hash_print(hash);
 
 		return 0;
 	}
@@ -618,10 +621,10 @@ void word_hash_print(word_hash * hash) {
 	printf("Hash:\n");
 	HASH_ITER(hh, hash->head, list, tmp) {
 		printf("\"%s\" -> ", list->word);
-		message * m;
-		LL_FOREACH(list->head, m) {
+		m_node * mn;
+		LL_FOREACH(list->head, mn) {
 			//print_time(m->tstamp);
-			printf("(\"%s\")", m->content->buffer);
+			printf("(\"%s\")", mn->message->content->buffer);
 			printf(", ");
 		}
 		printf("\n");

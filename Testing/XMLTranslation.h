@@ -18,13 +18,6 @@ typedef struct {
 	phash_t * head;
 }ptr_hash;
 
-/* actual object to store in linked lists */
-typedef struct message_node {
-	message * message;
-	struct message_node * next;
-}m_node;
-
-
 typedef struct tstamp {
 	int min;	// seconds
 	int hour;	// hour
@@ -39,6 +32,12 @@ typedef struct message {
 	tstamp_t * tstamp;
 	dString * content;
 }message;
+
+/* actual object to store in linked lists */
+typedef struct message_node {
+	message * message;
+	struct message_node * next;
+}m_node;
 
 typedef struct word_list {
 	char * word;	// acts as the key
