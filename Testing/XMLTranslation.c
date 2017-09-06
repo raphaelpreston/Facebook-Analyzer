@@ -64,8 +64,8 @@ int fileToXML(char * input, char * output)
 		//printf("\rProgress: %%%.4f", (charNum/totalChars)*100);
 		if (c == '<' || c == '>') {	//start or finish scanning
 			if (c == '>') {	//hit end of tag
-				/* check to see if theres only one possibility yet*/
-				if( !(skip || matched == -1) ){	//theres a match
+							/* check to see if theres only one possibility yet*/
+				if (!(skip || matched == -1)) {	//theres a match
 					if (stateLengths[matched] - 1 != idx) {	//lengths aren't correct
 					}
 					else {	//theres only a single match
@@ -96,7 +96,7 @@ int fileToXML(char * input, char * output)
 			}
 		}
 		else {	//not a < or >
-			if(!skip && !goodSkip) {	//not skipping
+			if (!skip && !goodSkip) {	//not skipping
 				if (scanning) {	//if scanning
 					foundOne = false;	//use to determine if there is at least one 1 in the binary tree, so we know to continue scanning or just start skipping
 					if (c == '/') {
@@ -198,11 +198,11 @@ int loadXML(char * fileName, word_hash * w_hash) {
 	}
 
 	/* create b+ tree for timestamps */
-	
-	 
+
+
 	/* variables for keeping track of data */
 	message * message = message_new();
-	
+
 	dString * name = dString_new(DSTRING_LENGTH);
 	dString * thread = dString_new(DSTRING_LENGTH);
 	dString * speaker = dString_new(DSTRING_LENGTH);
@@ -228,8 +228,8 @@ int loadXML(char * fileName, word_hash * w_hash) {
 	dString * word = dString_new(DSTRING_LENGTH);
 
 	char reading = 'x';	//x for nothing, [ for name, ] for thread data, { for speaker, } for time stamp, < for content
-	
-	/* load in data */
+
+						/* load in data */
 	char c;
 	while ((c = fgetc(input)) != EOF) {
 		/* if reading */
@@ -241,14 +241,17 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				reading = 'x';
 			}
 			else if (c == ']') {
+				printf("Thread is %s...\n", thread->buffer);
 				//don't clear thread here
 				reading = 'x';
-			} 
+			}
 			else if (c == '{') {
+				printf("Speaker is %s...\n", speaker->buffer);
 				dString * tmp = dString_new(strlen(speaker->buffer) + 1);
 				dString_fill(tmp, speaker->buffer);
 				message->speaker = tmp;
 				printf("Assigned speaker : %s.\n", message->speaker->buffer);
+
 				dString_clear(speaker);
 				reading = 'x';
 			}
@@ -271,17 +274,29 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				hour_s_count = 0;
 				min_c_count = 0;
 
+				printf("Reset all timestamp trackers.\n");
 				reading = 'x';
 			}
 			else if (c == '<') {
+				/* add the last word to the hash */
 				word_hash_add_word(w_hash, word->buffer, message);
 				printf("Read in word: \"%s\"\n", word->buffer);
+				printf("Clearing word.\n");
 				dString_clear(word);
-				
+
+				/* read in the content */
 				dString_fill(message->content, content->buffer);
 				printf("Read in content.\n");
+				printf("Content is %s...\n", content->buffer);
+				printf("Cleared content.\n");
 				dString_clear(content);
 				reading = 'x';
+
+				/* assign the thread to the message */
+				dString * tmp = dString_new(strlen(thread->buffer) + 1);
+				dString_fill(tmp, thread->buffer);
+				message->thread = tmp;
+				printf("Assigned thread to %s\n", message->thread->buffer);
 			}
 			/* read the character in appropriately to the message buffer */
 			else {
@@ -367,24 +382,9 @@ int loadXML(char * fileName, word_hash * w_hash) {
 
 		/* not reading, but we hit an indicator */
 		else if (c == '[' || c == ']' || c == '{' || c == '}' || c == '<') {
-			if (c == ']') {
-				printf("Clearing thread now.\n");
-				dString_clear(thread);
-			}
 			if (c == '{') {	//indicator of new message
-				if (message != NULL) {	//first time don't have to do it
-					/* before making a new message, assign the thread to that message */
-
-					dString * tmp = dString_new(strlen(thread->buffer) + 1);
-					dString_fill(tmp, thread->buffer);
-					message->thread = tmp;
-					printf("Assigned thread to %s\n", message->thread->buffer);
-				}
-				else {
-					free(message);
-					message = message_new();
-				}
-				
+				printf("Began to read new message.  Initilializing message object.\n");
+				message = message_new();
 			}
 
 			/* begin reading */
@@ -530,7 +530,7 @@ void word_list_add_node(word_list * list, message * m) {
 	return;
 }
 
-word_hash * word_hash_init(){
+word_hash * word_hash_init() {
 
 	/* declare the struct */
 	word_hash * hash;
@@ -561,11 +561,12 @@ word_list * word_hash_find_list(word_hash * hash, char * word, word_list * searc
 
 bool message_mark_deletion(word_hash * hash, message * m) {
 	if (!ptr_hash_exists_ptr(hash->ptrhash, m)) {	//not been added to deletion array yet
-		///* free all the memory */
+		//* free all the memory */
 		dString_delete(m->content);
 		dString_delete(m->speaker);
 		dString_delete(m->thread);
 		free(m->tstamp);
+
 
 		/* add the pointer to the list of pointers to be deleted */
 		ptr_hash_add_ptr(hash->ptrhash, m);
@@ -611,7 +612,7 @@ int word_hash_add_word(word_hash * hash, char * word, message * message) {
 	for (int i = 0; i < strlen(word); i++) {
 		if (!ispunc(word[i])) {	//valid character
 			dString_append(lower, tolower(word[i]));
-		} 
+		}
 	}
 	//losing memory by not freeing word?
 	word = lower->buffer;
@@ -660,7 +661,7 @@ void ptr_hash_add_ptr(ptr_hash * ptrhash, void * ptr) {
 	phash_t * e = (phash_t *)malloc(sizeof(phash_t));
 	if (!e) perror("Couldn't malloc for pointer.");
 	e->key = ptr;
-	
+
 	/* add the node to the hash */
 	HASH_ADD_PTR(ptrhash->head, key, e);
 }
@@ -694,15 +695,15 @@ void ptr_hash_delete(ptr_hash * ptrhash) {
 void word_hash_print(word_hash * hash) {
 	word_list * list;
 	word_list * tmp;
-	
+
 	printf("Hash:\n");
 	HASH_ITER(hh, hash->head, list, tmp) {
 		printf(" \"%s\" ->\n", list->word);
 		m_node * mn;
 		LL_FOREACH(list->head, mn) {
-			printf("   \"%s\" (\"%s\", ", mn->message->content->buffer, mn->message->speaker->buffer);
+			printf("   (\n    \"%s\"\n    \"%s\"\n    \"%s\"\n    ", mn->message->thread->buffer, mn->message->content->buffer, mn->message->speaker->buffer);
 			print_time(mn->message->tstamp);
-			printf(")%s", mn->next != NULL ? "\n" : "");
+			printf("\n    )%s", mn->next != NULL ? ",\n" : "");
 		}
 		printf("\n");
 	}
