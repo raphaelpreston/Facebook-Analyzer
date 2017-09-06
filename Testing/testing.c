@@ -54,9 +54,7 @@ int main(int argc, char * argv[])
 	char * m4p[] = { "I", "guess", "that", "means", "this", "is", "the", "fourth", "message?" };
 	char * m5p[] = { "This", "is", "the", "fifth", "and", "final", "message." };
 
-	for (int i = 0; i < 5; i++) {
-		word_hash_add_word(hash, m1p[i], m1);
-	}
+	for (int i = 0; i < 5; i++) word_hash_add_word(hash, m1p[i], m1);
 	for (int i = 0; i < 8; i++) word_hash_add_word(hash, m2p[i], m2);
 	for (int i = 0; i < 9; i++) word_hash_add_word(hash, m3p[i], m3);
 	for (int i = 0; i < 9; i++) word_hash_add_word(hash, m4p[i], m4);
