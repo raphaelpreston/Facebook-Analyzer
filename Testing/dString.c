@@ -115,6 +115,7 @@ void dString_minimize(dString * dStr) {
 	/* make the new buffer */
 	char * buffer;
 	buffer = (char *)malloc(sizeof(char) * len + 1);
+	if (buffer == NULL) perror("Unable to re malloc for minimzation.\n");
 	strcpy(buffer, dStr->buffer);
 
 	/* assign the new buffer and free the old one */
@@ -131,6 +132,7 @@ void dString_clear(dString * dStr) {
 	/* re-allocate memory */
 	free(dStr->buffer);
 	dStr->buffer = (char *)malloc(sizeof(char) * dStr->size);
+	if (dStr->buffer == NULL) perror("Unable to re malloc for dString clearing.");
 
 	/* make it appear empty */
 	dStr->buffer[0] = '\0';

@@ -172,7 +172,15 @@ int fileToXML(char * input, char * output)
 						fprintf(outputP, matched == 0 ? "[" : matched == 1 ? "]" : matched == 2 ? "{" : matched == 3 ? "}" : matched == 4 ? "<" : "</ERROR>\n");
 						printedTag = true;
 					}
-					fprintf(outputP, "%c", c);
+					/* print the character to the file unless it's one that needs to be changed */
+					if (c == '[') fprintf(outputP, "%s", "&#91;");
+					else if (c == ']') fprintf(outputP, "%s", "&#93;");
+					else if (c == '{') fprintf(outputP, "%s", "&#123;");
+					else if (c == '}') fprintf(outputP, "%s", "&#125;");
+					else if (c == '<') fprintf(outputP, "%s", "&lt;");
+					else if (c == '>') fprintf(outputP, "%s", "&gt;");
+
+					else fprintf(outputP, "%c", c);
 					recorded = true;
 				}
 			}
@@ -253,8 +261,9 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				reading = 'x';
 			}
 			else if (c == '}') {
+				printf("Attempting to set: \nHour: %s\nMin: %s\nAmpm: %s\nWday: %s\nMonth: %s\nMday: %s\nYear: %s\n\n", hour->buffer, min->buffer, ampm->buffer, wday->buffer, month->buffer, mday->buffer, year->buffer);
+				printf("Speaker for attempting: %s\n", message->speaker->buffer);
 				message_set_tstamp(message, atoi(hour->buffer), atoi(min->buffer), atoi(ampm->buffer), strcmp(wday->buffer, "Sunday") == 0 ? 0 : strcmp(wday->buffer, "Monday") == 0 ? 1 : strcmp(wday->buffer, "Tuesday") == 0 ? 2 : strcmp(wday->buffer, "Wednesday") == 0 ? 3 : strcmp(wday->buffer, "Thursday") == 0 ? 4 : strcmp(wday->buffer, "Friday") == 0 ? 5 : strcmp(wday->buffer, "Saturday") == 0 ? 6 : -1, strcmp(month->buffer, "January") == 0 ? 0 : strcmp(month->buffer, "February") == 0 ? 1 : strcmp(month->buffer, "March") == 0 ? 2 : strcmp(month->buffer, "April") == 0 ? 3 : strcmp(month->buffer, "May") == 0 ? 4 : strcmp(month->buffer, "June") == 0 ? 5 : strcmp(month->buffer, "July") == 0 ? 6 : strcmp(month->buffer, "August") == 0 ? 7 : strcmp(month->buffer, "September") == 0 ? 8 : strcmp(month->buffer, "October") == 0 ? 9 : strcmp(month->buffer, "November") == 0 ? 10 : strcmp(month->buffer, "December") == 0 ? 11 : -1, atoi(mday->buffer), atoi(year->buffer));
-
 				dString_clear(wday);
 				dString_clear(month);
 				dString_clear(mday);
@@ -460,6 +469,7 @@ word_list * word_list_new(char * word) {
 	/* set struct attributes */
 	list->head = NULL;
 	list->word = (char *)malloc(sizeof(char) * strlen(word) + 1);
+	if (list->word == NULL) perror("Unable to malloc for creation of word list -> word");
 	strcpy(list->word, word);
 
 
@@ -474,6 +484,7 @@ message * message_new() {
 
 	/* set attributes */
 	m->tstamp = (tstamp_t *)malloc(sizeof(tstamp_t));
+	if (m->tstamp == NULL) perror("Unable to malloc for creation of message -> tstamp");
 	m->content = dString_new(10);
 
 
@@ -481,7 +492,10 @@ message * message_new() {
 }
 
 void message_set_tstamp(message * m, int hour, int min, int ampm, int wday, int month, int mday, int year) {
-	if (hour < 1 || hour > 12 || min < 1 || min > 60 || ampm < 0 || ampm > 1 || wday < 0 || wday > 6 || mday < 0 || mday > 31 || year < 0) perror("Unable to set timestamp.");
+	if (hour < 0 || hour > 12 || min < 0 || min > 60 || ampm < 0 || ampm > 1 || wday < 0 || wday > 6 || mday < 0 || mday > 31 || year < 0) {
+		perror("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n!!!!!!!!Unable to set timestamp: \n");
+		printf(":::\nHour: %i\nMin: %i\nAmpm: %i\nWday: %i\nMonth: %i\nMday: %i\nYear: %i\n\n", hour, min, ampm, wday, month, mday, year);
+	}
 	m->tstamp->hour = hour;
 	m->tstamp->min = min;
 	m->tstamp->ampm = ampm;
@@ -518,6 +532,7 @@ word_hash * word_hash_init() {
 	/* declare the struct */
 	word_hash * hash;
 	hash = (word_hash *)malloc(sizeof(word_hash));
+	if (hash == NULL) perror("Unable to malloc for creation of word hash");
 
 	/* Set the head to NULL */
 	hash->head = NULL;
@@ -632,6 +647,7 @@ ptr_hash * ptr_hash_new() {
 	/* declare the struct */
 	ptr_hash * hash;
 	hash = (ptr_hash *)malloc(sizeof(ptr_hash));
+	if (hash == NULL) perror("Unable to malloc for creation of ptr hash");
 
 	/* Set the head to NULL */
 	hash->head = NULL;

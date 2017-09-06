@@ -13,9 +13,17 @@
 
 int main(int argc, char * argv[])
 {
+
+	// fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/messages.htm", "C:/Users/IAMFRANK/Documents/FB Testing/output_huge_2.txt");
+
+
+
 	word_hash * w_hash = word_hash_init();
-	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_shorter.txt", w_hash);
+
+	loadXML("C:/Users/IAMFRANK/Documents/FB Testing/output_huge_2.txt", w_hash);
+
 	word_hash_print(w_hash);
+	word_hash_delete(w_hash);
 	printf("\n\n Hash deleted.\n");
 
 
@@ -700,7 +708,6 @@ int main(int argc, char * argv[])
 	//	diff = (double)(1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
 	//	printf("%.0f\n", diff);
 	//}
-	// fileToXML("C:/Users/IAMFRANK/Documents/FB Testing/Testing Files/656537", "C:/Users/IAMFRANK/Documents/FB Testing/output.txt");
 
 	////////////////// runs through all the characters and does nothing to them
 
