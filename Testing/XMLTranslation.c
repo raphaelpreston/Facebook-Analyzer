@@ -229,7 +229,7 @@ int loadXML(char * fileName, word_hash * w_hash) {
 
 	char reading = 'x';	//x for nothing, [ for name, ] for thread data, { for speaker, } for time stamp, < for content
 
-						/* load in data */
+	/* load in data */
 	char c;
 	while ((c = fgetc(input)) != EOF) {
 		/* if reading */
@@ -242,6 +242,7 @@ int loadXML(char * fileName, word_hash * w_hash) {
 			}
 			else if (c == ']') {
 				printf("Thread is %s...\n", thread->buffer);
+				
 				//don't clear thread here
 				reading = 'x';
 			}
@@ -290,13 +291,14 @@ int loadXML(char * fileName, word_hash * w_hash) {
 				printf("Content is %s...\n", content->buffer);
 				printf("Cleared content.\n");
 				dString_clear(content);
-				reading = 'x';
 
 				/* assign the thread to the message */
 				dString * tmp = dString_new(strlen(thread->buffer) + 1);
 				dString_fill(tmp, thread->buffer);
 				message->thread = tmp;
 				printf("Assigned thread to %s\n", message->thread->buffer);
+
+				reading = 'x';
 			}
 			/* read the character in appropriately to the message buffer */
 			else {
@@ -385,6 +387,10 @@ int loadXML(char * fileName, word_hash * w_hash) {
 			if (c == '{') {	//indicator of new message
 				printf("Began to read new message.  Initilializing message object.\n");
 				message = message_new();
+			}
+			else if (c == ']') {
+				printf("Clearing thread.\n");
+				dString_clear(thread);
 			}
 
 			/* begin reading */
