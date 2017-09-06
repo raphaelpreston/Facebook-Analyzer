@@ -67,7 +67,7 @@ int main(int argc, char * argv[])
 	//HAVE TO FREE THE MESSAGE NODE AT SOME POINT
 
 
-	//word_hash_delete(hash);
+	word_hash_delete(hash);
 	//printf("Hash deleted.\n");
 
 

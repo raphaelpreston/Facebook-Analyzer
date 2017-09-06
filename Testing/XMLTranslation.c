@@ -504,6 +504,7 @@ void word_list_delete(word_hash * hash, word_list * list) {
 	LL_FOREACH_SAFE(list->head, current, tmp) {
 		message_mark_deletion(hash, current->message);	//only adds to deletion array
 		LL_DELETE(list->head, current);
+		free(current);	//free the node, i think...
 	}
 	free(list->word);
 	free(list->head);
