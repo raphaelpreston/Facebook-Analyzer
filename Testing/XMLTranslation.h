@@ -13,11 +13,16 @@ typedef struct {
 	UT_hash_handle hh;
 }phash_t;
 
+/* hashtable that will keep track of which pointers have already been freed */
 typedef struct {
 	phash_t * head;
 }ptr_hash;
 
-/* hashtable that will keep track of which pointers have already been freed */
+/* actual object to store in linked lists */
+typedef struct message_node {
+	message * message;
+	struct message_node * next;
+}m_node;
 
 
 typedef struct tstamp {
@@ -33,12 +38,11 @@ typedef struct tstamp {
 typedef struct message {
 	tstamp_t * tstamp;
 	dString * content;
-	struct message * next;
 }message;
 
 typedef struct word_list {
 	char * word;	// acts as the key
-	message * head;	//points to head of linked list of messages
+	m_node * head;	//points to head of linked list of messages
 	UT_hash_handle hh;
 }word_list;
 
@@ -47,6 +51,8 @@ typedef struct word_hash {
 	word_list * head;
 	ptr_hash * ptrhash;	//keeps track of whats been deleted so it doesn't try to free the same message again (if the same message is referenced twice in the hash this will happen)
 }word_hash;
+
+m_node * m_node_new(message * m);
 
 word_hash * word_hash_init();
 

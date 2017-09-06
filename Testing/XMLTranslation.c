@@ -434,8 +434,23 @@ void message_set_tstamp(message * m, int hour, int min, int ampm, int wday, int 
 	return;
 }
 
+m_node * m_node_new(message * m) {
+	if (m == NULL)perror("The message was null.");
+
+	/* declare the struct */
+	m_node * mn;
+	mn = (m_node *)malloc(sizeof(m_node));
+	if (mn == NULL) perror("Failed to allocate for message node.");
+
+	/* set attributes */
+	mn->message = m;
+
+	return;
+}
+
 void word_list_add_node(word_list * list, message * m) {
-	LL_PREPEND(list->head, m);
+	m_node * mn = m_node_new(m);
+	LL_PREPEND(list->head, mn);
 	return;
 }
 
